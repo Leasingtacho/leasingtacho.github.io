@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+<title>Leasing-Kilometer-Rechner: Mehrkilometer und Minderkilometer berechnen – Leasingtacho</title>
+<meta name="description" content="Kostenloser Rechner: Liegst du beim Kilometerleasing über oder unter dem Soll, und was heißt das am Vertragsende in Euro? Mit Freigrenze und Hochrechnung." />
+<link rel="canonical" href="https://leasingtacho.github.io/rechner.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Leasingtacho" />
+<meta property="og:locale" content="de_DE" />
+<meta property="og:title" content="Leasing-Kilometer-Rechner" />
+<meta property="og:description" content="Liegst du über oder unter deinen Leasingkilometern – und was heißt das am Vertragsende in Euro? Kostenlos ausrechnen, direkt im Browser." />
+<meta property="og:url" content="https://leasingtacho.github.io/rechner.html" />
+<meta property="og:image" content="https://leasingtacho.github.io/bilder/vorschau.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/png" href="bilder/symbol.png" />
+<link rel="apple-touch-icon" href="bilder/symbol.png" />
+<link rel="stylesheet" href="stil.css" />
+<script src="rechner.js" defer></script>
+</head>
+<body class="textseite">
+
+<header class="kopfzeile">
+  <div class="spalte">
+    <a class="marke" href="index.html"><img class="symbol" src="bilder/symbol.png" width="256" height="256" alt="" />Leasingtacho</a>
+  </div>
+</header>
+
+<main class="artikel">
+  <div class="spalte">
+
+    <h1>Leasing-Kilometer-Rechner</h1>
+    <p class="vorspann">Liegst du bei deinem Kilometerleasing über oder unter dem Soll – und was heißt das am Vertragsende in Euro? Trag die Angaben aus deinem Vertrag und deinen heutigen Kilometerstand ein.</p>
+    <p class="stand">Der Rechner läuft nur in deinem Browser. Was du eingibst, wird weder übertragen noch gespeichert.</p>
+
+    <noscript>
+      <p><strong>Der Rechner braucht JavaScript.</strong> Ist es ausgeschaltet, erklärt dir der Abschnitt „So rechnet der Rechner“ weiter unten, wie du selbst rechnest.</p>
+    </noscript>
+
+    <form class="rechner" id="rechner" autocomplete="off" novalidate>
+      <p id="rechner-js" hidden><button type="button" class="knopf-leise" id="beispiel">Mit einem Beispiel ausprobieren</button></p>
+
+      <fieldset>
+        <legend>Dein Vertrag</legend>
+        <div class="felder">
+          <div class="feld">
+            <label for="beginn">Vertragsbeginn</label>
+            <input type="date" id="beginn" name="beginn" required />
+          </div>
+          <div class="feld">
+            <label for="laufzeit">Laufzeit</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="laufzeit" name="laufzeit" placeholder="z.&#160;B. 36" required />
+              <span class="einheit">Monate</span>
+            </div>
+          </div>
+          <div class="feld">
+            <label for="vereinbart">Vereinbarte Laufleistung, gesamt</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="vereinbart" name="vereinbart" placeholder="z.&#160;B. 45.000" required />
+              <span class="einheit">km</span>
+            </div>
+            <p class="feldhinweis">Über die ganze Laufzeit, nicht je Jahr.</p>
+          </div>
+          <div class="feld">
+            <label for="uebernahme">Kilometerstand bei Übernahme</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="uebernahme" name="uebernahme" placeholder="z.&#160;B. 10" />
+              <span class="einheit">km</span>
+            </div>
+            <p class="feldhinweis">Steht im Übergabeprotokoll. Leer lassen, wenn der Wagen neu war.</p>
+          </div>
+          <div class="feld">
+            <label for="satzMehr">Je Mehrkilometer</label>
+            <div class="eingabe">
+              <input type="text" inputmode="decimal" id="satzMehr" name="satzMehr" placeholder="z.&#160;B. 0,12" />
+              <span class="einheit">€</span>
+            </div>
+          </div>
+          <div class="feld">
+            <label for="satzMinder">Je Minderkilometer</label>
+            <div class="eingabe">
+              <input type="text" inputmode="decimal" id="satzMinder" name="satzMinder" placeholder="z.&#160;B. 0,07" />
+              <span class="einheit">€</span>
+            </div>
+          </div>
+          <div class="feld">
+            <label for="freigrenze">Freigrenze</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="freigrenze" name="freigrenze" placeholder="z.&#160;B. 2.500" />
+              <span class="einheit">km</span>
+            </div>
+            <p class="feldhinweis">Leer lassen, wenn dein Vertrag keine hat.</p>
+          </div>
+        </div>
+      </fieldset>
+
+      <details class="weitere">
+        <summary>Weitere Angaben aus dem Vertrag</summary>
+        <div class="felder">
+          <div class="feld">
+            <label for="freigrenzeMinder">Eigene Freigrenze für Minderkilometer</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="freigrenzeMinder" name="freigrenzeMinder" placeholder="wie oben" />
+              <span class="einheit">km</span>
+            </div>
+          </div>
+          <div class="feld">
+            <label for="freigrenzenart">Über der Freigrenze abgerechnet</label>
+            <select id="freigrenzenart" name="freigrenzenart">
+              <option value="freibetrag">Nur die Kilometer darüber</option>
+              <option value="grenzwert">Alle Kilometer ab dem ersten</option>
+            </select>
+          </div>
+          <div class="feld">
+            <label for="deckelArt">Obergrenze der Vergütung</label>
+            <select id="deckelArt" name="deckelArt">
+              <option value="ohne">Keine</option>
+              <option value="kilometer">Höchstens so viele Kilometer</option>
+              <option value="betrag">Höchstens ein Betrag</option>
+            </select>
+          </div>
+          <div class="feld" id="feld-deckel-km" hidden>
+            <label for="deckelKilometer">Vergütet werden höchstens</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="deckelKilometer" name="deckelKilometer" placeholder="z.&#160;B. 5.000" />
+              <span class="einheit">km</span>
+            </div>
+          </div>
+          <div class="feld" id="feld-deckel-betrag" hidden>
+            <label for="deckelBetrag">Vergütet werden höchstens</label>
+            <div class="eingabe">
+              <input type="text" inputmode="decimal" id="deckelBetrag" name="deckelBetrag" placeholder="z.&#160;B. 500" />
+              <span class="einheit">€</span>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <fieldset>
+        <legend>Dein Stand</legend>
+        <div class="felder">
+          <div class="feld">
+            <label for="stand">Kilometerstand</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="stand" name="stand" placeholder="z.&#160;B. 19.500" required />
+              <span class="einheit">km</span>
+            </div>
+            <p class="feldhinweis">Der Gesamtstand vom Tacho, nicht der Tageszähler.</p>
+          </div>
+          <div class="feld">
+            <label for="stichtag">Abgelesen am</label>
+            <input type="date" id="stichtag" name="stichtag" required />
+          </div>
+          <div class="feld">
+            <label for="methode">Hochrechnung</label>
+            <select id="methode" name="methode">
+              <option value="schnitt">Schnitt seit Vertragsbeginn</option>
+              <option value="annahme">Eigene Annahme je Jahr</option>
+            </select>
+          </div>
+          <div class="feld" id="feld-jahresleistung" hidden>
+            <label for="jahresleistung">Erwartete Fahrleistung je Jahr</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="jahresleistung" name="jahresleistung" placeholder="z.&#160;B. 15.000" />
+              <span class="einheit">km</span>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <section class="ergebnis" id="ergebnis" aria-live="polite">
+        <h2>Ergebnis</h2>
+        <p class="rechenweg">Trag Vertragsbeginn, Laufzeit, vereinbarte Laufleistung und deinen heutigen Kilometerstand ein – das Ergebnis erscheint sofort.</p>
+      </section>
+    </form>
+
+    <aside class="appkasten" aria-label="Leasingtacho">
+      <img class="symbol" src="bilder/symbol.png" width="256" height="256" alt="" />
+      <div>
+        <p class="appkasten-titel">Das jeden Monat wissen, ohne zu rechnen?</p>
+        <p>Leasingtacho für das iPhone rechnet dir diesen Stand jederzeit aus – aus allen Kilometerständen, die du abliest, mit dem Schnitt der letzten Wochen, Erinnerung an die nächste Ablesung und Ablesen per Kamera. Sieben Tage kostenlos testen, danach einmalig 4,99&#160;€.</p>
+        <p><a href="index.html">Mehr zur App</a></p>
+      </div>
+    </aside>
+
+    <h2>So rechnet der Rechner</h2>
+    <h3>Das Soll zum heutigen Tag</h3>
+    <p>Die vereinbarte Laufleistung wird gleichmäßig auf die Kalendertage der Laufzeit verteilt. Bei 45.000&#160;km über 36&#160;Monate sind nach einem Drittel der Laufzeit also rund 15.000&#160;km „dran“. Liegst du darüber, fährst du mehr, als der Vertrag vorsieht.</p>
+    <p>Die Laufzeit endet einen Tag vor dem Monatstag des Beginns: Ein Vertrag ab dem 1.&#160;März 2025 über 36&#160;Monate endet am 29.&#160;Februar 2028.</p>
+
+    <h3>Die Hochrechnung</h3>
+    <p>Aus deinem bisherigen Schnitt je Tag rechnet der Rechner hoch, wo du am Vertragsende landest. Das geht erst nach 14&#160;Tagen Laufzeit – vorher wäre die Zahl reiner Zufall. Wer schon vorher eine Zahl will oder weiß, dass sich seine Fahrleistung ändert, trägt eine eigene Jahresannahme ein.</p>
+    <p>Mit nur einem Kilometerstand kennt der Rechner allein deinen Schnitt seit Vertragsbeginn. Die App merkt sich jede Ablesung und rechnet deshalb auch mit dem Schnitt der letzten Wochen – der zeigt schneller, wenn du anders fährst als früher.</p>
+
+    <h3>Freigrenze und Abrechnung</h3>
+    <p>Innerhalb der Freigrenze wird nichts abgerechnet. Darüber zählen bei den meisten Verträgen nur die Kilometer oberhalb der Grenze; manche Verträge rechnen dann alle Kilometer ab dem ersten ab. Die Vergütung für Minderkilometer ist in vielen Verträgen nach oben begrenzt. Beides stellst du unter „Weitere Angaben aus dem Vertrag“ ein. Mehr dazu in <a href="mehrkilometer.html">Mehrkilometer beim Leasing</a> und <a href="minderkilometer.html">Minderkilometer und Freigrenze</a>.</p>
+
+    <h3>Wenn ab heute kein Kilometer mehr dazukommt</h3>
+    <p>Diese Zeile zeigt die Untergrenze: Weniger als hier kann bei einer Nachzahlung nicht mehr herauskommen, und mehr Vergütung als hier gibt es nicht.</p>
+
+    <p class="stand">Alle Angaben ohne Gewähr. Maßgeblich ist immer dein Vertrag und die Abrechnung deines Leasinggebers.</p>
+
+    <ul class="weiterlesen">
+      <li><a href="mehrkilometer.html">Mehrkilometer beim Leasing</a> – was sie kosten und wie du gegensteuerst</li>
+      <li><a href="minderkilometer.html">Minderkilometer und Freigrenze</a> – was du zurückbekommst</li>
+      <li><a href="leasingrueckgabe.html">Leasingrückgabe</a> – die Kilometer im Blick behalten</li>
+    </ul>
+
+  </div>
+</main>
+
+<footer class="fusszeile">
+  <div class="spalte">
+    <nav aria-label="Ratgeber">
+      <ul>
+        <li><a href="index.html">Leasingtacho</a></li>
+        <li><a href="rechner.html" aria-current="page">Kilometer-Rechner</a></li>
+        <li><a href="mehrkilometer.html">Mehrkilometer</a></li>
+        <li><a href="minderkilometer.html">Minderkilometer und Freigrenze</a></li>
+        <li><a href="leasingrueckgabe.html">Leasingrückgabe</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Rechtliches">
+      <ul>
+        <li><a href="presse.html">Presse</a></li>
+        <li><a href="datenschutz.html">Datenschutz</a></li>
+        <li><a href="impressum.html">Impressum</a></li>
+      </ul>
+    </nav>
+    <p>Apple, iPhone, iCloud, Face&#160;ID, Touch&#160;ID, Siri und App Store sind Marken der Apple Inc., eingetragen in den USA und weiteren Ländern und Regionen.</p>
+  </div>
+</footer>
+
+</body>
+</html>

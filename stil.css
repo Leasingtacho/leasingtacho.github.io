@@ -1,0 +1,857 @@
+/*
+ * Leasingtacho – gemeinsamer Stil aller Seiten.
+ *
+ * Bewusst ohne externe Ressourcen: keine Webfonts, keine Bibliotheken.
+ * Die Schrift ist die Systemschrift des Geräts. Kommt etwas von außen dazu,
+ * stimmt die Datenschutzerklärung nicht mehr.
+ */
+
+/* ---------- Farben ---------- */
+
+:root {
+  color-scheme: light dark;
+
+  --hintergrund: #f2f2f7;      /* wie systemGroupedBackground */
+  --papier: #ffffff;           /* Hintergrund der Textseiten */
+  --flaeche: #ffffff;          /* Karten */
+  --text: #1d1d1f;
+  --text-zweitrangig: #6e6e73;
+  --trennlinie: rgba(60, 60, 67, 0.16);
+  --akzent: #007aff;
+  --gruen: #34c759;
+  --rot: #ff3b30;
+  --hinweis-flaeche: #fff2f1;
+  --hinweis-text: #8e1c14;
+  --kasten: #f2f2f7;            /* Kästen auf Textseiten */
+  --gruen-text: #248a3d;        /* Grün, das auf Weiß lesbar bleibt */
+  --schatten: 0 1px 2px rgba(0, 0, 0, 0.04), 0 6px 20px rgba(0, 0, 0, 0.05);
+  --bildschatten: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 12px 32px rgba(0, 0, 0, 0.12);
+
+  --radius: 18px;
+  --lesebreite: 680px;
+  --rand: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --hintergrund: #000000;
+    --papier: #000000;
+    --flaeche: #1c1c1e;
+    --text: #f5f5f7;
+    --text-zweitrangig: #98989d;
+    --trennlinie: rgba(84, 84, 88, 0.6);
+    --akzent: #0a84ff;
+    --gruen: #30d158;
+    --rot: #ff453a;
+    --hinweis-flaeche: #2a1110;
+    --hinweis-text: #ffb3ad;
+    --kasten: #1c1c1e;
+    --gruen-text: #30d158;
+    --schatten: none;
+    --bildschatten: 0 0 0 1px rgba(255, 255, 255, 0.12);
+  }
+}
+
+/* ---------- Grundlagen ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--hintergrund);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+/* Textseiten (Datenschutz, Impressum) ohne Karten auf ruhigem Grund */
+body.textseite {
+  background: var(--papier);
+}
+
+h1,
+h2,
+h3 {
+  -webkit-hyphens: manual;
+  hyphens: manual;
+  text-wrap: balance;
+}
+
+p,
+li {
+  text-wrap: pretty;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--akzent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--akzent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.spalte {
+  max-width: calc(var(--lesebreite) + 2 * var(--rand));
+  margin: 0 auto;
+  padding: 0 var(--rand);
+}
+
+.symbol {
+  border-radius: 22.37%;
+  box-shadow: 0 0 0 1px var(--trennlinie);
+}
+
+/* ---------- Kopfzeile der Unterseiten ---------- */
+
+.kopfzeile {
+  padding: 20px 0 8px;
+}
+
+.marke {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.marke:hover {
+  text-decoration: none;
+}
+
+.marke .symbol {
+  width: 32px;
+  height: 32px;
+}
+
+/* ---------- Startseite: Bühne ---------- */
+
+.buehne {
+  padding: 64px 0 40px;
+  text-align: center;
+}
+
+.buehne .symbol {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 24px;
+  box-shadow: 0 0 0 1px var(--trennlinie), 0 10px 30px rgba(0, 0, 0, 0.14);
+}
+
+.buehne h1 {
+  margin: 0;
+  font-size: clamp(36px, 8vw, 52px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.022em;
+}
+
+.leitsatz {
+  margin: 10px 0 0;
+  font-size: clamp(21px, 4.4vw, 26px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+}
+
+.einleitung {
+  max-width: 34em;
+  margin: 18px auto 0;
+  color: var(--text-zweitrangig);
+  font-size: 19px;
+  line-height: 1.5;
+}
+
+.eckdaten {
+  margin: 18px 0 0;
+  color: var(--text-zweitrangig);
+  font-size: 15px;
+}
+
+.eckdaten span {
+  white-space: nowrap;
+}
+
+.sprungmarken ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 24px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 15px;
+}
+
+/* ---------- Startseite: Bildschirmfotos ---------- */
+
+.bildschirme {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 300px));
+  justify-content: center;
+  gap: 32px;
+  margin: 8px 0 0;
+}
+
+.bildschirme figure {
+  margin: 0;
+}
+
+.bildschirme img {
+  width: 100%;
+  /* Runde Ecken wie beim iPhone-Display: 12 % der Breite, umgerechnet auf die Höhe */
+  border-radius: 12% / 5.5%;
+  box-shadow: var(--bildschatten);
+}
+
+.bildschirme figcaption {
+  margin-top: 14px;
+  color: var(--text-zweitrangig);
+  font-size: 15px;
+  text-align: center;
+}
+
+@media (max-width: 560px) {
+  .bildschirme {
+    grid-template-columns: minmax(0, 300px);
+    gap: 40px;
+  }
+}
+
+/* Kleine Vorschauen, etwa auf der Presseseite */
+.bildschirme.klein {
+  grid-template-columns: repeat(2, minmax(0, 200px));
+  justify-content: start;
+  gap: 24px;
+}
+
+@media (max-width: 560px) {
+  .bildschirme.klein {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+/* ---------- Abschnitte ---------- */
+
+.abschnitt {
+  margin-top: 72px;
+  scroll-margin-top: 24px;
+}
+
+.abschnitt > h2 {
+  margin: 0 0 8px;
+  font-size: clamp(26px, 5vw, 32px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.018em;
+}
+
+.abschnitt > .vorspann {
+  margin: 0 0 24px;
+  color: var(--text-zweitrangig);
+}
+
+/* Überschrift über einer Karte, wie der Abschnittskopf einer iOS-Liste */
+.gruppenkopf {
+  margin: 28px 20px 8px;
+  color: var(--text-zweitrangig);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.karte {
+  background: var(--flaeche);
+  border-radius: var(--radius);
+  box-shadow: var(--schatten);
+}
+
+.karte.innen {
+  padding: 20px;
+}
+
+.karte.innen > :first-child {
+  margin-top: 0;
+}
+
+.karte.innen > :last-child {
+  margin-bottom: 0;
+}
+
+/* Gruppierte Liste: Zeilen mit Titel und Erklärung */
+.liste {
+  margin: 0;
+  padding: 0 20px;
+  list-style: none;
+}
+
+.liste > li {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--trennlinie);
+}
+
+.liste > li:last-child {
+  border-bottom: 0;
+}
+
+.liste h3,
+.liste h4 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.liste p {
+  margin: 4px 0 0;
+  color: var(--text-zweitrangig);
+  font-size: 16px;
+}
+
+.fussnote {
+  margin: 10px 20px 0;
+  color: var(--text-zweitrangig);
+  font-size: 14px;
+}
+
+/* ---------- Preis ---------- */
+
+.merkmale {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin: -8px 0 20px;
+  padding: 0;
+  list-style: none;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.merkmale li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.merkmale svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  color: var(--gruen);
+}
+
+/* ---------- Fragen und Antworten ---------- */
+
+.fragen {
+  padding: 0 20px;
+}
+
+.fragen details {
+  border-bottom: 1px solid var(--trennlinie);
+}
+
+.fragen details:last-child {
+  border-bottom: 0;
+}
+
+.fragen summary {
+  position: relative;
+  padding: 16px 32px 16px 0;
+  font-weight: 600;
+  line-height: 1.35;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fragen summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Winkel rechts, dreht sich beim Aufklappen */
+.fragen summary::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--text-zweitrangig);
+  border-bottom: 2px solid var(--text-zweitrangig);
+  transform: translateY(-70%) rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.fragen details[open] > summary::after {
+  transform: translateY(-25%) rotate(225deg);
+}
+
+.fragen .antwort {
+  padding: 0 0 18px;
+  font-size: 16px;
+}
+
+.fragen .antwort p {
+  margin: 0 0 10px;
+}
+
+.fragen .antwort p:last-child {
+  margin-bottom: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fragen summary::after {
+    transition: none;
+  }
+}
+
+/* ---------- Kontakt ---------- */
+
+.kontaktadresse {
+  margin: 8px 0 12px;
+  font-size: 21px;
+  font-weight: 600;
+}
+
+.karte .hinweis {
+  color: var(--text-zweitrangig);
+  font-size: 15px;
+}
+
+/* ---------- Textseiten und Artikel ---------- */
+
+/* Rechtstexte (Datenschutz, Impressum) und Artikel (Ratgeber, Rechner, Presse)
+   teilen sich den ruhigen Satz ohne Karten. */
+
+.rechtstext,
+.artikel {
+  padding: 32px 0 0;
+}
+
+.rechtstext h1,
+.artikel h1 {
+  margin: 0 0 8px;
+  font-size: clamp(28px, 6vw, 36px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.rechtstext h2,
+.artikel h2 {
+  margin: 36px 0 8px;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.artikel h3 {
+  margin: 24px 0 6px;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.rechtstext p,
+.rechtstext ul,
+.artikel p,
+.artikel ul,
+.artikel ol {
+  margin: 0 0 14px;
+}
+
+.rechtstext ul,
+.artikel ul,
+.artikel ol {
+  padding-left: 1.25em;
+}
+
+.rechtstext li,
+.artikel li {
+  margin-bottom: 8px;
+}
+
+.rechtstext address {
+  margin: 0 0 14px;
+  font-style: normal;
+}
+
+.stand {
+  color: var(--text-zweitrangig);
+  font-size: 15px;
+}
+
+/* Vorspann unter der Überschrift eines Artikels */
+.artikel .vorspann {
+  margin: 12px 0 24px;
+  color: var(--text-zweitrangig);
+  font-size: 19px;
+  line-height: 1.5;
+}
+
+/* Beispielrechnungen und Gegenüberstellungen */
+.tabelle-rahmen {
+  margin: 0 0 18px;
+  overflow-x: auto;
+}
+
+.tabelle {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.tabelle caption {
+  padding: 0 0 8px;
+  color: var(--text-zweitrangig);
+  font-size: 15px;
+  text-align: left;
+}
+
+.tabelle th,
+.tabelle td {
+  padding: 9px 12px 9px 0;
+  border-bottom: 1px solid var(--trennlinie);
+  text-align: left;
+  vertical-align: top;
+}
+
+.tabelle th:last-child,
+.tabelle td:last-child {
+  padding-right: 0;
+}
+
+.tabelle thead th {
+  color: var(--text-zweitrangig);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.tabelle .zahl {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.tabelle tfoot td,
+.tabelle tfoot th {
+  border-bottom: 0;
+  font-weight: 600;
+}
+
+/* Steckbrief: links kurze Bezeichnungen, rechts der Text. Die Bezeichnungen
+   brechen nicht um, die Spalte ist so breit wie die längste. */
+.eckdaten th[scope="row"] {
+  width: 1%;
+  padding-right: 20px;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.eckdaten td {
+  overflow-wrap: anywhere;
+}
+
+/* Kasten mit dem Hinweis auf die App, am Ende von Ratgeber und Rechner */
+.appkasten {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin: 36px 0 0;
+  padding: 20px;
+  border-radius: var(--radius);
+  background: var(--kasten);
+}
+
+.appkasten .symbol {
+  flex: none;
+  width: 64px;
+  height: 64px;
+}
+
+.appkasten p {
+  margin: 0 0 8px;
+}
+
+.appkasten p:last-child {
+  margin-bottom: 0;
+}
+
+.appkasten .appkasten-titel {
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+@media (max-width: 420px) {
+  .appkasten {
+    flex-direction: column;
+  }
+}
+
+/* Weiterlesen: Links zu den anderen Artikeln */
+.weiterlesen {
+  margin: 36px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.weiterlesen li {
+  margin: 0;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--trennlinie);
+}
+
+.weiterlesen li:first-child {
+  border-top: 1px solid var(--trennlinie);
+}
+
+/* ---------- Rechner ---------- */
+
+.rechner {
+  margin: 24px 0 0;
+  padding: 20px;
+  border-radius: var(--radius);
+  background: var(--kasten);
+}
+
+.rechner fieldset {
+  margin: 0 0 20px;
+  padding: 0;
+  border: 0;
+}
+
+.rechner legend {
+  margin: 0 0 10px;
+  padding: 0;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.felder {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 16px;
+}
+
+@media (max-width: 520px) {
+  .felder {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.feld label {
+  display: block;
+  margin: 0 0 4px;
+  color: var(--text-zweitrangig);
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.feld .eingabe {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.feld input,
+.feld select {
+  width: 100%;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--trennlinie);
+  border-radius: 10px;
+  background: var(--flaeche);
+  color: var(--text);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+.feld input:focus-visible,
+.feld select:focus-visible {
+  outline: 2px solid var(--akzent);
+  outline-offset: 1px;
+}
+
+.feld .einheit {
+  flex: none;
+  color: var(--text-zweitrangig);
+  font-size: 15px;
+}
+
+.feld .feldhinweis {
+  margin: 4px 0 0;
+  color: var(--text-zweitrangig);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.rechner #rechner-js {
+  margin: 0 0 16px;
+}
+
+.knopf-leise {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--akzent);
+  font: inherit;
+  cursor: pointer;
+}
+
+.knopf-leise:hover {
+  text-decoration: underline;
+}
+
+.knopf-leise:focus-visible {
+  outline: 2px solid var(--akzent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.rechner .weitere {
+  margin: -4px 0 20px;
+}
+
+.rechner .weitere summary {
+  margin: 0 0 12px;
+  color: var(--akzent);
+  cursor: pointer;
+}
+
+.ergebnis {
+  margin: 4px 0 0;
+  padding: 20px;
+  border-radius: 14px;
+  background: var(--flaeche);
+  box-shadow: 0 0 0 1px var(--trennlinie);
+}
+
+.ergebnis h2 {
+  margin: 0 0 12px;
+  font-size: 19px;
+}
+
+.ergebnis .kennzahlen {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 16px;
+  margin: 0 0 16px;
+}
+
+.ergebnis dl,
+.ergebnis dd {
+  margin: 0;
+}
+
+.ergebnis dt {
+  color: var(--text-zweitrangig);
+  font-size: 14px;
+}
+
+.ergebnis dd {
+  font-size: 19px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.ergebnis .betrag {
+  margin: 0 0 4px;
+  font-size: clamp(28px, 7vw, 34px);
+  font-weight: 700;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+}
+
+.ergebnis .rechenweg {
+  margin: 0 0 12px;
+  color: var(--text-zweitrangig);
+  font-size: 15px;
+}
+
+.ergebnis .nachzahlung {
+  color: var(--rot);
+}
+
+.ergebnis .verguetung {
+  color: var(--gruen-text);
+}
+
+.ergebnis .fehlermeldung {
+  margin: 0;
+  color: var(--hinweis-text);
+}
+
+.ergebnis .ergebnisblock + .ergebnisblock {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--trennlinie);
+}
+
+.ergebnis .ergebnisblock h3 {
+  margin: 0 0 4px;
+  color: var(--text-zweitrangig);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.ergebnis .ergebnisblock p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- Fußzeile ---------- */
+
+.fusszeile {
+  margin-top: 80px;
+  padding: 24px 0 48px;
+  border-top: 1px solid var(--trennlinie);
+  color: var(--text-zweitrangig);
+  font-size: 14px;
+}
+
+.fusszeile ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fusszeile nav + nav {
+  margin-top: 10px;
+}
+
+.fusszeile p {
+  margin: 16px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
