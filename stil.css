@@ -979,3 +979,44 @@ summary:focus-visible {
   font-size: 12px;
   line-height: 1.5;
 }
+
+/* ---------- Abzeichen „Laden im App Store“ ---------- */
+
+/* Offizielles Abzeichen von Apple, unverändert. Apple verlangt mindestens 40 px
+   Höhe und rundum Freiraum von einem Viertel der Höhe. */
+.laden {
+  margin: 24px 0 0;
+}
+
+.buehne .laden {
+  display: flex;
+  justify-content: center;
+}
+
+.app-store {
+  display: inline-block;
+  padding: 14px 0;
+  line-height: 0;
+}
+
+.app-store:hover {
+  opacity: 0.85;
+  text-decoration: none;
+}
+
+.app-store img {
+  width: auto;
+  height: 54px;
+}
+
+.appkasten .laden {
+  margin: 0;
+}
+
+.appkasten .app-store {
+  padding: 12px 0;
+}
+
+.appkasten .app-store img {
+  height: 44px;
+}
