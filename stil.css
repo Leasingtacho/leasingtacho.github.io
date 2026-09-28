@@ -26,6 +26,8 @@
   --gruen-text: #248a3d;        /* Grün, das auf Weiß lesbar bleibt */
   --schatten: 0 1px 2px rgba(0, 0, 0, 0.04), 0 6px 20px rgba(0, 0, 0, 0.05);
   --bildschatten: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 12px 32px rgba(0, 0, 0, 0.12);
+  --knopf-flaeche: rgba(120, 120, 128, 0.16);
+  --knopf-flaeche-hover: rgba(120, 120, 128, 0.26);
 
   --radius: 18px;
   --lesebreite: 680px;
@@ -49,6 +51,8 @@
     --gruen-text: #30d158;
     --schatten: none;
     --bildschatten: 0 0 0 1px rgba(255, 255, 255, 0.12);
+    --knopf-flaeche: rgba(120, 120, 128, 0.32);
+    --knopf-flaeche-hover: rgba(120, 120, 128, 0.44);
   }
 }
 
@@ -211,7 +215,127 @@ summary:focus-visible {
   font-size: 15px;
 }
 
-/* ---------- Startseite: Bildschirmfotos ---------- */
+/* ---------- Startseite: Galerie der Bildschirmfotos ---------- */
+
+/* Ein Streifen zum Wischen wie im App Store. Er beginnt an der linken Kante der
+   Textspalte und läuft bis zum Fensterrand, damit man sieht, dass es weitergeht.
+   galerie.js blendet am Computer Pfeile zum Blättern ein und die Bildlaufleiste
+   aus; ohne JavaScript bleibt die Leiste stehen. */
+
+.galerie {
+  margin: 0;
+}
+
+.galerie-streifen {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: max(var(--rand), calc((100% - var(--lesebreite)) / 2));
+  /* Oben Luft, damit der Schatten der Bilder nicht abgeschnitten wird */
+  padding: 24px var(--rand) 8px max(var(--rand), calc((100% - var(--lesebreite)) / 2));
+}
+
+.galerie-streifen:focus-visible {
+  outline: 2px solid var(--akzent);
+  outline-offset: -2px;
+}
+
+.galerie.mit-knoepfen .galerie-streifen {
+  scrollbar-width: none;
+}
+
+.galerie.mit-knoepfen .galerie-streifen::-webkit-scrollbar {
+  display: none;
+}
+
+.galerie figure {
+  flex: none;
+  width: clamp(220px, 64vw, 264px);
+  margin: 0;
+  scroll-snap-align: start;
+}
+
+.galerie img {
+  width: 100%;
+  /* Runde Ecken wie beim iPhone-Display: 12 % der Breite, umgerechnet auf die Höhe */
+  border-radius: 12% / 5.5%;
+  box-shadow: var(--bildschatten);
+}
+
+.galerie figcaption {
+  margin-top: 16px;
+  color: var(--text-zweitrangig);
+  font-size: 15px;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.galerie figcaption strong {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.galerie-knoepfe {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.galerie-knoepfe[hidden] {
+  display: none;
+}
+
+.galerie-knopf {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--knopf-flaeche);
+  color: var(--text);
+  cursor: pointer;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.galerie-knopf svg {
+  width: 18px;
+  height: 18px;
+}
+
+.galerie-knopf:hover:not(:disabled) {
+  background: var(--knopf-flaeche-hover);
+}
+
+.galerie-knopf:focus-visible {
+  outline: 2px solid var(--akzent);
+  outline-offset: 2px;
+}
+
+.galerie-knopf:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* Auf Touchgeräten wischt man; Pfeile wären dort nur im Weg. */
+@media (hover: none) {
+  .galerie-knoepfe {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .galerie-knopf {
+    transition: none;
+  }
+}
+
+/* ---------- Bildschirmfotos (Presseseite) ---------- */
 
 .bildschirme {
   display: grid;

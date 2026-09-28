@@ -45,6 +45,7 @@
 <link rel="icon" type="image/png" href="bilder/symbol.png" />
 <link rel="apple-touch-icon" href="bilder/symbol.png" />
 <link rel="stylesheet" href="stil.css" />
+<script src="galerie.js" defer></script>
 </head>
 <body>
 
@@ -68,18 +69,40 @@
 </header>
 
 <main>
-  <div class="spalte">
-
-    <div class="bildschirme">
+  <div class="galerie">
+    <div class="galerie-streifen" id="galerie-streifen" tabindex="0" role="region" aria-label="Bildschirmfotos der App">
       <figure>
-        <img src="bilder/01-Uebersicht.png" width="414" height="900" loading="lazy" decoding="async" alt="Startseite der App: oben die erwartete Nachzahlung über alle Verträge zusammen, darunter die einzelnen Verträge mit Kilometerbalken, Abweichung vom Soll und Betrag." />
-        <figcaption>Alle Verträge auf einen Blick</figcaption>
+        <img src="bilder/01-Uebersicht.png" width="552" height="1200" loading="lazy" decoding="async" alt="Startseite der App: oben die erwartete Nachzahlung über alle Verträge zusammen, darunter die einzelnen Verträge mit Kilometerbalken, Abweichung vom Soll und Betrag." />
+        <figcaption><strong>Alle Verträge auf einen Blick</strong> Mit der erwarteten Nachzahlung oder Vergütung</figcaption>
       </figure>
       <figure>
-        <img src="bilder/03-Hochrechnung.png" width="414" height="900" loading="lazy" decoding="async" alt="Hochrechnung eines Vertrags: angenommene Kilometer je Tag, Laufleistung am Vertragsende, Abweichung und voraussichtliche Nachzahlung mit Rechenweg." />
-        <figcaption>Hochrechnung auf das Vertragsende</figcaption>
+        <img src="bilder/03-Hochrechnung.png" width="552" height="1200" loading="lazy" decoding="async" alt="Hochrechnung eines Vertrags: angenommene Kilometer je Tag, Laufleistung am Vertragsende, Abweichung und voraussichtliche Nachzahlung mit Rechenweg." />
+        <figcaption><strong>Hochrechnung auf das Vertragsende</strong> In Euro, nach den Regeln deines Vertrags</figcaption>
+      </figure>
+      <figure>
+        <img src="bilder/06-Erfassen.png" width="552" height="1200" loading="lazy" decoding="async" alt="Formular „Ablesung erfassen“: Datum, eingetippter Kilometerstand, der Knopf „Mit der Kamera ablesen“ und darunter die gefahrenen Kilometer seit der letzten Ablesung." />
+        <figcaption><strong>Kilometerstand in Sekunden erfasst</strong> Eintippen, per Kamera oder mit Siri</figcaption>
+      </figure>
+      <figure>
+        <img src="bilder/02-Vertrag.png" width="552" height="1200" loading="lazy" decoding="async" alt="Detailseite eines Vertrags: gefahrene Kilometer, Soll zum heutigen Tag, Abweichung vom Soll und was bis zum Vertragsende noch frei ist." />
+        <figcaption><strong>Liegst du im Rahmen?</strong> Gefahren und Soll, auf den Tag genau</figcaption>
+      </figure>
+      <figure>
+        <img src="bilder/04-Verlauf.png" width="552" height="1200" loading="lazy" decoding="async" alt="Verlaufsdiagramm eines Vertrags mit gefahrenen Kilometern, Soll und Prognose über die Laufzeit, darunter die letzten Ablesungen." />
+        <figcaption><strong>Jeder Kilometer im Verlauf</strong> Gefahren, Soll und Prognose im Diagramm</figcaption>
+      </figure>
+      <figure>
+        <img src="bilder/05-Ablesungen.png" width="552" height="1200" loading="lazy" decoding="async" alt="Liste aller Ablesungen eines Vertrags, nach Monaten geordnet, mit der Monatssumme und den gefahrenen Kilometern seit der vorherigen Ablesung." />
+        <figcaption><strong>Alle Ablesungen, Monat für Monat</strong> Mit den gefahrenen Kilometern je Monat</figcaption>
       </figure>
     </div>
+    <div class="spalte galerie-knoepfe" hidden>
+      <button type="button" class="galerie-knopf" data-richtung="-1" aria-controls="galerie-streifen" aria-label="Zurückblättern"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M12.5 4.5L7 10l5.5 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+      <button type="button" class="galerie-knopf" data-richtung="1" aria-controls="galerie-streifen" aria-label="Weiterblättern"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7.5 4.5L13 10l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+    </div>
+  </div>
+
+  <div class="spalte">
 
     <section class="abschnitt" id="funktionen" aria-labelledby="funktionen-titel">
       <h2 id="funktionen-titel">Was die App kann</h2>
