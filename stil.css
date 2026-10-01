@@ -988,7 +988,9 @@ summary:focus-visible {
   margin: 24px 0 0;
 }
 
-.buehne .laden {
+/* Mittig im Kopf der Seite und am Ende eines Abschnitts. */
+.buehne .laden,
+.abschnitt > .laden {
   display: flex;
   justify-content: center;
 }
