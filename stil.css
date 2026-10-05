@@ -951,6 +951,45 @@ summary:focus-visible {
   margin-bottom: 0;
 }
 
+/* Angebotsvergleich: zwei Angebote nebeneinander, das günstigere in Grün */
+.ergebnis .vergleich {
+  margin: 0 0 4px;
+}
+
+.ergebnis .vergleich tbody th {
+  color: var(--text-zweitrangig);
+  font-weight: 400;
+}
+
+.ergebnis .vergleich .sieger {
+  color: var(--gruen-text);
+}
+
+.ergebnis .vergleich .summe th,
+.ergebnis .vergleich .summe td {
+  font-weight: 600;
+}
+
+.ergebnis .vergleich tbody tr:last-child th,
+.ergebnis .vergleich tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.ergebnis .fazit {
+  margin: 12px 0 0;
+  font-weight: 600;
+}
+
+.ergebnis .fehlermeldung:not(:only-of-type) {
+  margin-top: 10px;
+}
+
+@media (max-width: 420px) {
+  .ergebnis .vergleich {
+    font-size: 14px;
+  }
+}
+
 /* ---------- Fußzeile ---------- */
 
 .fusszeile {

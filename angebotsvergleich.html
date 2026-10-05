@@ -7,15 +7,15 @@
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
 <meta name="apple-itunes-app" content="app-id=6815973549" />
-<title>Leasing-Kilometer-Rechner: Mehrkilometer und Minderkilometer berechnen – Leasingtacho</title>
-<meta name="description" content="Kostenloser Rechner: Liegst du beim Kilometerleasing über oder unter dem Soll, und was heißt das am Vertragsende in Euro? Mit Freigrenze und Hochrechnung." />
-<link rel="canonical" href="https://leasingtacho.github.io/rechner.html" />
+<title>Leasing-Angebote vergleichen: Welche Laufleistung passt? – Leasingtacho</title>
+<meta name="description" content="Kostenloser Rechner: 10.000 oder 15.000 km im Jahr? Zwei Leasing-Angebote vergleichen – Raten plus erwartete Nachzahlung oder Vergütung für deine Fahrleistung." />
+<link rel="canonical" href="https://leasingtacho.github.io/angebotsvergleich.html" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Leasingtacho" />
 <meta property="og:locale" content="de_DE" />
-<meta property="og:title" content="Leasing-Kilometer-Rechner" />
-<meta property="og:description" content="Liegst du über oder unter deinen Leasingkilometern – und was heißt das am Vertragsende in Euro? Kostenlos ausrechnen, direkt im Browser." />
-<meta property="og:url" content="https://leasingtacho.github.io/rechner.html" />
+<meta property="og:title" content="Leasing-Angebote vergleichen: Welche Laufleistung passt?" />
+<meta property="og:description" content="Zwei Leasing-Angebote, eine Fahrleistung: Was kostet am Ende weniger – Raten plus Mehrkilometer oder die größere Laufleistung? Kostenlos ausrechnen, direkt im Browser." />
+<meta property="og:url" content="https://leasingtacho.github.io/angebotsvergleich.html" />
 <meta property="og:image" content="https://leasingtacho.github.io/bilder/vorschau.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -23,7 +23,7 @@
 <link rel="icon" type="image/png" href="bilder/symbol.png" />
 <link rel="apple-touch-icon" href="bilder/symbol.png" />
 <link rel="stylesheet" href="stil.css" />
-<script src="rechner.js" defer></script>
+<script src="angebotsvergleich.js" defer></script>
 </head>
 <body class="textseite">
 
@@ -36,8 +36,8 @@
 <main class="artikel">
   <div class="spalte">
 
-    <h1>Leasing-Kilometer-Rechner</h1>
-    <p class="vorspann">Liegst du bei deinem Kilometerleasing über oder unter dem Soll – und was heißt das am Vertragsende in Euro? Trag die Angaben aus deinem Vertrag und deinen heutigen Kilometerstand ein.</p>
+    <h1>Leasing-Angebote vergleichen</h1>
+    <p class="vorspann">Wie viele Kilometer im Jahr sollst du vereinbaren – und welches von zwei Angeboten kostet am Ende weniger? Trag deine Fahrleistung und die beiden Angebote ein. Der Rechner zählt zu den Raten, was die Kilometerabrechnung am Vertragsende voraussichtlich kostet oder bringt.</p>
     <p class="stand">Der Rechner läuft nur in deinem Browser. Was du eingibst, wird weder übertragen noch gespeichert.</p>
 
     <noscript>
@@ -48,35 +48,76 @@
       <p id="rechner-js" hidden><button type="button" class="knopf-leise" id="beispiel">Mit einem Beispiel ausprobieren</button></p>
 
       <fieldset>
-        <legend>Dein Vertrag</legend>
+        <legend>Deine Fahrleistung</legend>
         <div class="felder">
           <div class="feld">
-            <label for="beginn">Vertragsbeginn</label>
-            <input type="date" id="beginn" name="beginn" required />
-          </div>
-          <div class="feld">
-            <label for="laufzeit">Laufzeit</label>
+            <label for="fahrleistung">Gefahren im Jahr</label>
             <div class="eingabe">
-              <input type="text" inputmode="numeric" id="laufzeit" name="laufzeit" placeholder="z.&#160;B. 36" required />
+              <input type="text" inputmode="numeric" id="fahrleistung" name="fahrleistung" placeholder="z.&#160;B. 13.400" required />
+              <span class="einheit">km</span>
+            </div>
+            <p class="feldhinweis">Am besten aus deinem jetzigen Vertrag: gefahrene Kilometer geteilt durch die Monate, mal zwölf. Der <a href="rechner.html">Kilometer-Rechner</a> zeigt dir deinen Schnitt je Tag.</p>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Angebot A</legend>
+        <div class="felder">
+          <div class="feld">
+            <label for="laufzeitA">Laufzeit</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="laufzeitA" name="laufzeitA" placeholder="z.&#160;B. 36" required />
               <span class="einheit">Monate</span>
             </div>
           </div>
           <div class="feld">
-            <label for="vereinbart">Vereinbarte Laufleistung, gesamt</label>
+            <label for="laufleistungA">Laufleistung im Jahr</label>
             <div class="eingabe">
-              <input type="text" inputmode="numeric" id="vereinbart" name="vereinbart" placeholder="z.&#160;B. 45.000" required />
+              <input type="text" inputmode="numeric" id="laufleistungA" name="laufleistungA" placeholder="z.&#160;B. 10.000" required />
               <span class="einheit">km</span>
             </div>
-            <p class="feldhinweis">Über die ganze Laufzeit, nicht je Jahr.</p>
           </div>
           <div class="feld">
-            <label for="uebernahme">Kilometerstand bei Übernahme</label>
+            <label for="rateA">Monatsrate</label>
             <div class="eingabe">
-              <input type="text" inputmode="numeric" id="uebernahme" name="uebernahme" placeholder="z.&#160;B. 10" />
+              <input type="text" inputmode="decimal" id="rateA" name="rateA" placeholder="z.&#160;B. 289" />
+              <span class="einheit">€</span>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Angebot B</legend>
+        <div class="felder">
+          <div class="feld">
+            <label for="laufzeitB">Laufzeit</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="laufzeitB" name="laufzeitB" placeholder="z.&#160;B. 36" required />
+              <span class="einheit">Monate</span>
+            </div>
+          </div>
+          <div class="feld">
+            <label for="laufleistungB">Laufleistung im Jahr</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="laufleistungB" name="laufleistungB" placeholder="z.&#160;B. 15.000" required />
               <span class="einheit">km</span>
             </div>
-            <p class="feldhinweis">Steht im Übergabeprotokoll. Leer lassen, wenn der Wagen neu war.</p>
           </div>
+          <div class="feld">
+            <label for="rateB">Monatsrate</label>
+            <div class="eingabe">
+              <input type="text" inputmode="decimal" id="rateB" name="rateB" placeholder="z.&#160;B. 309" />
+              <span class="einheit">€</span>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Abrechnung am Vertragsende</legend>
+        <div class="felder">
           <div class="feld">
             <label for="satzMehr">Je Mehrkilometer</label>
             <div class="eingabe">
@@ -97,13 +138,13 @@
               <input type="text" inputmode="numeric" id="freigrenze" name="freigrenze" placeholder="z.&#160;B. 2.500" />
               <span class="einheit">km</span>
             </div>
-            <p class="feldhinweis">Leer lassen, wenn dein Vertrag keine hat.</p>
+            <p class="feldhinweis">Gilt hier für beide Angebote. Leer lassen, wenn es keine gibt.</p>
           </div>
         </div>
       </fieldset>
 
       <details class="weitere">
-        <summary>Weitere Angaben aus dem Vertrag</summary>
+        <summary>Weitere Angaben aus dem Angebot</summary>
         <div class="felder">
           <div class="feld">
             <label for="freigrenzeMinder">Eigene Freigrenze für Minderkilometer</label>
@@ -144,49 +185,17 @@
         </div>
       </details>
 
-      <fieldset>
-        <legend>Dein Stand</legend>
-        <div class="felder">
-          <div class="feld">
-            <label for="stand">Kilometerstand</label>
-            <div class="eingabe">
-              <input type="text" inputmode="numeric" id="stand" name="stand" placeholder="z.&#160;B. 19.500" required />
-              <span class="einheit">km</span>
-            </div>
-            <p class="feldhinweis">Der Gesamtstand vom Tacho, nicht der Tageszähler.</p>
-          </div>
-          <div class="feld">
-            <label for="stichtag">Abgelesen am</label>
-            <input type="date" id="stichtag" name="stichtag" required />
-          </div>
-          <div class="feld">
-            <label for="methode">Hochrechnung</label>
-            <select id="methode" name="methode">
-              <option value="schnitt">Schnitt seit Vertragsbeginn</option>
-              <option value="annahme">Eigene Annahme je Jahr</option>
-            </select>
-          </div>
-          <div class="feld" id="feld-jahresleistung" hidden>
-            <label for="jahresleistung">Erwartete Fahrleistung je Jahr</label>
-            <div class="eingabe">
-              <input type="text" inputmode="numeric" id="jahresleistung" name="jahresleistung" placeholder="z.&#160;B. 15.000" />
-              <span class="einheit">km</span>
-            </div>
-          </div>
-        </div>
-      </fieldset>
-
       <section class="ergebnis" id="ergebnis" aria-live="polite">
         <h2>Ergebnis</h2>
-        <p class="rechenweg">Trag Vertragsbeginn, Laufzeit, vereinbarte Laufleistung und deinen heutigen Kilometerstand ein – das Ergebnis erscheint sofort.</p>
+        <p class="rechenweg">Trag deine Fahrleistung im Jahr und zu beiden Angeboten Laufzeit und Laufleistung ein – das Ergebnis erscheint sofort.</p>
       </section>
     </form>
 
     <aside class="appkasten" aria-label="Leasingtacho">
       <img class="symbol" src="bilder/symbol.png" width="256" height="256" alt="" />
       <div>
-        <p class="appkasten-titel">Das jeden Monat wissen, ohne zu rechnen?</p>
-        <p>Leasingtacho für das iPhone rechnet dir diesen Stand jederzeit aus – aus allen Kilometerständen, die du abliest, mit dem Schnitt der letzten Wochen, Erinnerung an die nächste Ablesung und Ablesen per Kamera. Sieben Tage kostenlos testen, danach einmalig 4,99&#160;€.</p>
+        <p class="appkasten-titel">Deine echte Fahrleistung kennen, statt zu schätzen?</p>
+        <p>Leasingtacho für das iPhone rechnet sie aus deinen Kilometerständen aus und belegt diesen Vergleich mit den Sätzen und Freigrenzen deines jetzigen Vertrags vor. Aus dem gewählten Angebot wird mit einem Tipp der neue Vertrag. Sieben Tage kostenlos testen, danach einmalig 4,99&#160;€.</p>
         <p class="laden">
           <a class="app-store" href="https://apps.apple.com/de/app/leasingtacho/id6815973549">
             <picture>
@@ -200,27 +209,28 @@
     </aside>
 
     <h2>So rechnet der Rechner</h2>
-    <h3>Das Soll zum heutigen Tag</h3>
-    <p>Die vereinbarte Laufleistung wird gleichmäßig auf die Kalendertage der Laufzeit verteilt. Bei 45.000&#160;km über 36&#160;Monate sind nach einem Drittel der Laufzeit also rund 15.000&#160;km „dran“. Liegst du darüber, fährst du mehr, als der Vertrag vorsieht.</p>
-    <p>Die Laufzeit endet einen Tag vor dem Monatstag des Beginns: Ein Vertrag ab dem 1.&#160;März 2025 über 36&#160;Monate endet am 29.&#160;Februar 2028.</p>
+    <h3>Vereinbart und erwartet</h3>
+    <p>Die Laufleistung im Jahr wird auf die Laufzeit umgerechnet: 10.000&#160;km im Jahr über 36&#160;Monate sind 30.000&#160;km. Genauso deine Fahrleistung: Wer 13.400&#160;km im Jahr fährt, kommt in 36&#160;Monaten auf 40.200&#160;km. Die Differenz sind deine voraussichtlichen Mehr- oder Minderkilometer.</p>
 
-    <h3>Die Hochrechnung</h3>
-    <p>Aus deinem bisherigen Schnitt je Tag rechnet der Rechner hoch, wo du am Vertragsende landest. Das geht erst nach 14&#160;Tagen Laufzeit – vorher wäre die Zahl reiner Zufall. Wer schon vorher eine Zahl will oder weiß, dass sich seine Fahrleistung ändert, trägt eine eigene Jahresannahme ein.</p>
-    <p>Mit nur einem Kilometerstand kennt der Rechner allein deinen Schnitt seit Vertragsbeginn. Die App merkt sich jede Ablesung und rechnet deshalb auch mit dem Schnitt der letzten Wochen – der zeigt schneller, wenn du anders fährst als früher.</p>
+    <h3>Die Abrechnung am Ende</h3>
+    <p>Innerhalb der Freigrenze wird nichts abgerechnet. Darüber kosten Mehrkilometer den vereinbarten Satz, Minderkilometer bringen den – meist niedrigeren – Satz zurück, oft nur bis zu einer Obergrenze. Im Beispiel mit 2.500&#160;km Freigrenze und 0,12&#160;€ je Mehrkilometer werden beim kleinen Angebot 7.700&#160;km abgerechnet: 924&#160;€ Nachzahlung. Mehr dazu in <a href="mehrkilometer.html">Mehrkilometer beim Leasing</a> und <a href="minderkilometer.html">Minderkilometer und Freigrenze</a>.</p>
 
-    <h3>Freigrenze und Abrechnung</h3>
-    <p>Innerhalb der Freigrenze wird nichts abgerechnet. Darüber zählen bei den meisten Verträgen nur die Kilometer oberhalb der Grenze; manche Verträge rechnen dann alle Kilometer ab dem ersten ab. Die Vergütung für Minderkilometer ist in vielen Verträgen nach oben begrenzt. Beides stellst du unter „Weitere Angaben aus dem Vertrag“ ein. Mehr dazu in <a href="mehrkilometer.html">Mehrkilometer beim Leasing</a> und <a href="minderkilometer.html">Minderkilometer und Freigrenze</a>.</p>
+    <h3>Der Vergleich</h3>
+    <p>Gesamtkosten sind die Monatsrate mal die Laufzeit, plus Nachzahlung oder minus Vergütung. Bei gleicher Laufzeit gewinnt das Angebot mit den geringeren Gesamtkosten. Sind die Laufzeiten verschieden, wäre das unfair – vier Jahre kosten mehr als drei –, deshalb zählt dann, was ein Monat kostet.</p>
+    <p>Ohne Monatsraten zeigt der Rechner nur die Kilometerabrechnung und nennt keinen Sieger: Dort schneidet die größere Laufleistung immer besser ab, obwohl sie über die Rate mehr kostet.</p>
 
-    <h3>Wenn ab heute kein Kilometer mehr dazukommt</h3>
-    <p>Diese Zeile zeigt die Untergrenze: Weniger als hier kann bei einer Nachzahlung nicht mehr herauskommen, und mehr Vergütung als hier gibt es nicht.</p>
+    <h3>Welche Laufleistung passt?</h3>
+    <p>Leasinggeber bieten die Laufleistung meist in Stufen von 5.000&#160;km im Jahr an. Der Rechner nennt die Stufe, die deine Fahrleistung abdeckt. Die Stufe darunter ist oft trotzdem eine Überlegung wert: Mehrkilometer sind nicht automatisch teurer als die höhere Rate – genau das rechnet der Vergleich aus.</p>
 
-    <p class="stand">Alle Angaben ohne Gewähr. Maßgeblich ist immer dein Vertrag und die Abrechnung deines Leasinggebers.</p>
+    <h3>Was nicht eingerechnet ist</h3>
+    <p>Anzahlung, Überführung, Zulassung, Wartung und Versicherung. Sind sie bei beiden Angeboten gleich, ändern sie am Ergebnis nichts; unterscheiden sie sich, rechne sie selbst dazu. Gelten für die beiden Angebote verschiedene Sätze oder Freigrenzen, rechne den Vergleich zweimal – oder nimm die App, dort trägst du sie je Angebot ein.</p>
+
+    <p class="stand">Alle Angaben ohne Gewähr. Maßgeblich sind immer das Angebot und die Abrechnung deines Leasinggebers.</p>
 
     <ul class="weiterlesen">
+      <li><a href="rechner.html">Leasing-Kilometer-Rechner</a> – wo du im laufenden Vertrag stehst</li>
       <li><a href="mehrkilometer.html">Mehrkilometer beim Leasing</a> – was sie kosten und wie du gegensteuerst</li>
-      <li><a href="minderkilometer.html">Minderkilometer und Freigrenze</a> – was du zurückbekommst</li>
       <li><a href="leasingrueckgabe.html">Leasingrückgabe</a> – die Kilometer im Blick behalten</li>
-      <li><a href="angebotsvergleich.html">Leasing-Angebote vergleichen</a> – welche Laufleistung für den nächsten Vertrag passt</li>
     </ul>
 
   </div>
@@ -231,8 +241,8 @@
     <nav aria-label="Ratgeber">
       <ul>
         <li><a href="index.html">Leasingtacho</a></li>
-        <li><a href="rechner.html" aria-current="page">Kilometer-Rechner</a></li>
-        <li><a href="angebotsvergleich.html">Angebote vergleichen</a></li>
+        <li><a href="rechner.html">Kilometer-Rechner</a></li>
+        <li><a href="angebotsvergleich.html" aria-current="page">Angebote vergleichen</a></li>
         <li><a href="mehrkilometer.html">Mehrkilometer</a></li>
         <li><a href="minderkilometer.html">Minderkilometer und Freigrenze</a></li>
         <li><a href="leasingrueckgabe.html">Leasingrückgabe</a></li>
