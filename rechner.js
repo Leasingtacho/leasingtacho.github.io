@@ -30,7 +30,10 @@
   var satzformat = new Intl.NumberFormat("de-DE", {
     style: "currency", currency: "EUR", minimumFractionDigits: 2, maximumFractionDigits: 4
   });
-  var datumformat = new Intl.DateTimeFormat("de-DE", { timeZone: "UTC" });
+  // Tag und Monat zweistellig wie in der App: „05.10.2026“, nicht „5.10.2026“
+  var datumformat = new Intl.DateTimeFormat("de-DE", {
+    day: "2-digit", month: "2-digit", year: "numeric", timeZone: "UTC"
+  });
 
   // ---------- Eingaben lesen ----------
 
