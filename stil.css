@@ -564,6 +564,12 @@ summary:focus-visible {
   font-weight: 600;
 }
 
+/* Kontaktangaben als Bild, nur ohne JavaScript (siehe kontakt.js) */
+.kontaktbild {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .karte .hinweis {
   color: var(--text-zweitrangig);
   font-size: 15px;

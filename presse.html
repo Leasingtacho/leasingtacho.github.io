@@ -23,6 +23,7 @@
 <link rel="icon" type="image/png" href="bilder/symbol.png" />
 <link rel="apple-touch-icon" href="bilder/symbol.png" />
 <link rel="stylesheet" href="stil.css" />
+<script src="kontakt.js" defer></script>
 </head>
 <body class="textseite">
 
@@ -73,7 +74,11 @@
             </tr>
             <tr>
               <th scope="row">Kontakt</th>
-              <td><a href="mailto:leasingtacho@icloud.com">leasingtacho@icloud.com</a></td>
+              <td><span data-kontakt="email"><noscript><img class="kontaktbild" src="bilder/kontakt-email.png" width="189" height="22" alt="E-Mail-Adresse (als Bild, Schutz vor Spam)" /></noscript></span></td>
+            </tr>
+            <tr>
+              <th scope="row">Telefon</th>
+              <td><span data-kontakt="telefon"><noscript><img class="kontaktbild" src="bilder/kontakt-telefon.png" width="146" height="22" alt="Telefonnummer (als Bild, Schutz vor Spam)" /></noscript></span></td>
             </tr>
             <tr>
               <th scope="row">App Store</th>
@@ -138,7 +143,8 @@
 
       <h2>Kontakt für Presse</h2>
       <p>Für Fragen, weiteres Material und Testberichte:</p>
-      <p class="kontaktadresse"><a href="mailto:leasingtacho@icloud.com">leasingtacho@icloud.com</a></p>
+      <p class="kontaktadresse"><span data-kontakt="email"><noscript><img class="kontaktbild" src="bilder/kontakt-email.png" width="189" height="22" alt="E-Mail-Adresse (als Bild, Schutz vor Spam)" /></noscript></span></p>
+      <p>Oder telefonisch: <span data-kontakt="telefon"><noscript><img class="kontaktbild" src="bilder/kontakt-telefon.png" width="146" height="22" alt="Telefonnummer (als Bild, Schutz vor Spam)" /></noscript></span></p>
       <p>Für Testberichte gibt es auf Anfrage Codes für die Vollversion.</p>
     </article>
 
