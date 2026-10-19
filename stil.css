@@ -686,6 +686,27 @@ summary:focus-visible {
   font-weight: 600;
 }
 
+/* Tabellen mit drei Zahlenspalten: auf dem Handy etwas enger, Zeilenköpfe ohne Silbentrennung */
+@media (max-width: 560px) {
+  .tabelle.eng {
+    font-size: 13px;
+  }
+
+  .tabelle.eng thead th {
+    font-size: 13px;
+  }
+
+  .tabelle.eng th,
+  .tabelle.eng td {
+    padding-right: 6px;
+  }
+
+  .tabelle.eng th[scope="row"] {
+    -webkit-hyphens: manual;
+    hyphens: manual;
+  }
+}
+
 .tabelle .zahl {
   text-align: right;
   white-space: nowrap;
