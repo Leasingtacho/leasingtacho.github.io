@@ -372,15 +372,15 @@ summary:focus-visible {
 
 /* Kleine Vorschauen, etwa auf der Presseseite */
 .bildschirme.klein {
-  grid-template-columns: repeat(2, minmax(0, 200px));
+  grid-template-columns: repeat(3, minmax(0, 180px));
   justify-content: start;
   gap: 24px;
 }
 
 @media (max-width: 560px) {
   .bildschirme.klein {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
   }
 }
 
