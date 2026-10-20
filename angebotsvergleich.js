@@ -7,9 +7,13 @@
  *   Monaten durch zwölf, kaufmännisch auf ganze Kilometer gerundet.
  * - Abrechnung: Freigrenze je Richtung, als Freibetrag oder als Grenze;
  *   Vergütung gedeckelt in Kilometern oder Euro.
- * - Gesamtkosten: Monatsrate mal Laufzeit plus Nachzahlung oder minus
- *   Vergütung. Verglichen wird nur, wenn bei beiden Angeboten eine Rate steht;
- *   bei gleicher Laufzeit die Gesamtkosten, sonst die Kosten je Monat.
+ * - Einmalig: Anzahlung sowie Überführung und Zulassung.
+ * - Wartung: ein Servicepaket je Monat mal Laufzeit, oder jede Inspektion
+ *   einzeln, so oft ihr Abstand in die Laufzeit passt (abgerundet).
+ * - Gesamtkosten: Monatsrate mal Laufzeit, einmalige Kosten und Wartung, plus
+ *   Nachzahlung oder minus Vergütung. Verglichen wird nur, wenn bei beiden
+ *   Angeboten eine Rate steht; bei gleicher Laufzeit die Gesamtkosten, sonst
+ *   die Kosten je Monat.
  * - Empfohlen wird die 5.000er-Stufe, die die Fahrleistung abdeckt.
  *
  * Geld wird in Zehntausendstel Euro als ganze Zahl gerechnet und erst am Ende
@@ -47,12 +51,18 @@
     return ziffern === "" ? null : parseInt(ziffern, 10);
   }
 
-  /** Betrag in Zehntausendstel Euro, aus „0,12“, „0.12“ oder „1.234,5“. */
+  /**
+   * Betrag in Zehntausendstel Euro, aus „0,12“, „0.12“, „1.500“ oder
+   * „1.234,5“. Ohne Komma gilt ein Punkt vor genau drei Ziffern als
+   * Tausenderpunkt („1.500“ sind 1.500 €), außer nach einer Null („0.125“).
+   */
   function betrag(name) {
     var roh = text(name).replace(/[\s€]/g, "");
     if (roh === "") return null;
     if (roh.indexOf(",") >= 0) {
       roh = roh.replace(/\./g, "").replace(",", ".");
+    } else if (/^[1-9]\d{0,2}(\.\d{3})+$/.test(roh)) {
+      roh = roh.replace(/\./g, "");
     }
     if (!/^\d*(\.\d*)?$/.test(roh) || roh === ".") return NaN;
     var teile = roh.split(".");
@@ -120,7 +130,17 @@
     var erwartet = ueberLaufzeit(fahrleistung, monate);
     var schluss = abrechnung(regeln, vereinbart, erwartet);
     var raten = rate ? aufCent(rate * monate) : null;
-    var gesamt = (raten || 0) + schluss.cent;
+    var einmalig = aufCent((betrag("anzahlung" + seite) || 0) + (betrag("nebenkosten" + seite) || 0));
+    var wartung = 0;
+    var inspektionen = 0;
+    if (text("wartung" + seite) === "einzeln") {
+      var jeInspektion = betrag("inspektion" + seite) || 0;
+      inspektionen = jeInspektion > 0 ? Math.floor(monate / (ganzzahl("abstand" + seite) || 12)) : 0;
+      wartung = aufCent(jeInspektion * inspektionen);
+    } else {
+      wartung = aufCent((betrag("servicepaket" + seite) || 0) * monate);
+    }
+    var gesamt = (raten || 0) + einmalig + wartung + schluss.cent;
 
     return {
       monate: monate,
@@ -129,6 +149,9 @@
       differenz: schluss.differenz,
       abrechnung: schluss.cent,
       raten: raten,
+      einmalig: einmalig,
+      wartung: wartung,
+      inspektionen: inspektionen,
       gesamt: gesamt,
       jeMonat: Math.round(gesamt / monate)
     };
@@ -205,6 +228,12 @@
     if (a.raten !== null || b.raten !== null) {
       zeile(koerper, "Raten", a.raten === null ? "–" : euroText(a.raten), b.raten === null ? "–" : euroText(b.raten));
     }
+    if (a.einmalig > 0 || b.einmalig > 0) {
+      zeile(koerper, "Einmalig", euroText(a.einmalig), euroText(b.einmalig));
+    }
+    if (a.wartung > 0 || b.wartung > 0) {
+      zeile(koerper, "Wartung", euroText(a.wartung), euroText(b.wartung));
+    }
     zeile(koerper, "Abrechnung", euroMitVorzeichen(a.abrechnung), euroMitVorzeichen(b.abrechnung), [farbe(a.abrechnung), farbe(b.abrechnung)]);
     if (a.raten !== null && b.raten !== null) {
       zeile(koerper, "Gesamt", euroText(a.gesamt), euroText(b.gesamt), null, true);
@@ -228,8 +257,13 @@
     var satzMehr = betrag("satzMehr");
     var satzMinder = betrag("satzMinder");
     var deckelBetrag = betrag("deckelBetrag");
-    var raten = SEITEN.map(function (seite) { return betrag("rate" + seite); });
-    if ([satzMehr, satzMinder, deckelBetrag].concat(raten).some(function (w) { return typeof w === "number" && isNaN(w); })) {
+    var seitenbetraege = [];
+    SEITEN.forEach(function (seite) {
+      ["rate", "anzahlung", "nebenkosten", "servicepaket", "inspektion"].forEach(function (name) {
+        seitenbetraege.push(betrag(name + seite));
+      });
+    });
+    if ([satzMehr, satzMinder, deckelBetrag].concat(seitenbetraege).some(function (w) { return typeof w === "number" && isNaN(w); })) {
       return hinweis("Beträge bitte als Zahl eintragen, etwa „289“ oder „0,12“.", "fehlermeldung");
     }
 
@@ -277,6 +311,9 @@
 
     ausgabe.appendChild(tabelle(a, b, guenstiger));
     ausgabe.appendChild(element("p", guenstiger ? "fazit verguetung" : "rechenweg", fazit));
+    if ((a.wartung > 0) !== (b.wartung > 0)) {
+      ausgabe.appendChild(element("p", "fehlermeldung", "Bei Angebot " + (a.wartung > 0 ? "B" : "A") + " ist keine Wartung eingetragen. Ist sie dort nicht enthalten, kommt sie noch dazu."));
+    }
     if ((a.differenz > regeln.freigrenzeMehr || b.differenz > regeln.freigrenzeMehr) && regeln.satzMehr === 0) {
       ausgabe.appendChild(element("p", "fehlermeldung", "Ohne Preis je Mehrkilometer fehlt die Nachzahlung."));
     }
@@ -286,6 +323,12 @@
     var art = text("deckelArt");
     document.getElementById("feld-deckel-km").hidden = art !== "kilometer";
     document.getElementById("feld-deckel-betrag").hidden = art !== "betrag";
+    SEITEN.forEach(function (seite) {
+      var einzeln = text("wartung" + seite) === "einzeln";
+      document.getElementById("feld-paket-" + seite).hidden = einzeln;
+      document.getElementById("feld-inspektion-" + seite).hidden = !einzeln;
+      document.getElementById("feld-abstand-" + seite).hidden = !einzeln;
+    });
   }
 
   /** Ein Beispiel zum Ausprobieren: 13.400 km im Jahr, 10.000 oder 15.000 km vereinbaren? */

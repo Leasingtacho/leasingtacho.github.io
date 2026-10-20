@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
 <meta name="apple-itunes-app" content="app-id=6815973549" />
 <title>Leasing-Angebote vergleichen: Welche Laufleistung passt? – Leasingtacho</title>
-<meta name="description" content="Kostenloser Rechner: 10.000 oder 15.000 km im Jahr? Zwei Leasing-Angebote vergleichen – Raten plus erwartete Nachzahlung oder Vergütung für deine Fahrleistung." />
+<meta name="description" content="Kostenloser Rechner: 10.000 oder 15.000 km im Jahr? Zwei Leasing-Angebote vergleichen – Raten, Anzahlung, Überführung und Wartung plus erwartete Nachzahlung oder Vergütung für deine Fahrleistung." />
 <link rel="canonical" href="https://leasingtacho.github.io/angebotsvergleich.html" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Leasingtacho" />
@@ -37,7 +37,7 @@
   <div class="spalte">
 
     <h1>Leasing-Angebote vergleichen</h1>
-    <p class="vorspann">Wie viele Kilometer im Jahr sollst du vereinbaren – und welches von zwei Angeboten kostet am Ende weniger? Trag deine Fahrleistung und die beiden Angebote ein. Der Rechner zählt zu den Raten, was die Kilometerabrechnung am Vertragsende voraussichtlich kostet oder bringt.</p>
+    <p class="vorspann">Wie viele Kilometer im Jahr sollst du vereinbaren – und welches von zwei Angeboten kostet am Ende weniger? Trag deine Fahrleistung und die beiden Angebote ein. Der Rechner zählt zu Raten, Anzahlung, Überführung und Wartung, was die Kilometerabrechnung am Vertragsende voraussichtlich kostet oder bringt.</p>
     <p class="stand">Der Rechner läuft nur in deinem Browser. Was du eingibst, wird weder übertragen noch gespeichert.</p>
 
     <noscript>
@@ -85,6 +85,48 @@
               <span class="einheit">€</span>
             </div>
           </div>
+          <div class="feld">
+            <label for="anzahlungA">Anzahlung</label>
+            <div class="eingabe">
+              <input type="text" inputmode="decimal" id="anzahlungA" name="anzahlungA" placeholder="z.&#160;B. 1.000" />
+              <span class="einheit">€</span>
+            </div>
+          </div>
+          <div class="feld">
+            <label for="nebenkostenA">Überführung und Zulassung</label>
+            <div class="eingabe">
+              <input type="text" inputmode="decimal" id="nebenkostenA" name="nebenkostenA" placeholder="z.&#160;B. 990" />
+              <span class="einheit">€</span>
+            </div>
+          </div>
+          <div class="feld">
+            <label for="wartungA">Wartung</label>
+            <select id="wartungA" name="wartungA">
+              <option value="paket">Servicepaket je Monat</option>
+              <option value="einzeln">Inspektion einzeln</option>
+            </select>
+          </div>
+          <div class="feld" id="feld-paket-A">
+            <label for="servicepaketA">Servicepaket</label>
+            <div class="eingabe">
+              <input type="text" inputmode="decimal" id="servicepaketA" name="servicepaketA" placeholder="z.&#160;B. 29" />
+              <span class="einheit">€ im Monat</span>
+            </div>
+          </div>
+          <div class="feld" id="feld-inspektion-A" hidden>
+            <label for="inspektionA">Je Inspektion</label>
+            <div class="eingabe">
+              <input type="text" inputmode="decimal" id="inspektionA" name="inspektionA" placeholder="z.&#160;B. 380" />
+              <span class="einheit">€</span>
+            </div>
+          </div>
+          <div class="feld" id="feld-abstand-A" hidden>
+            <label for="abstandA">Inspektion fällig</label>
+            <select id="abstandA" name="abstandA">
+              <option value="12">Jährlich</option>
+              <option value="24">Alle 2 Jahre</option>
+            </select>
+          </div>
         </div>
       </fieldset>
 
@@ -111,6 +153,48 @@
               <input type="text" inputmode="decimal" id="rateB" name="rateB" placeholder="z.&#160;B. 309" />
               <span class="einheit">€</span>
             </div>
+          </div>
+          <div class="feld">
+            <label for="anzahlungB">Anzahlung</label>
+            <div class="eingabe">
+              <input type="text" inputmode="decimal" id="anzahlungB" name="anzahlungB" placeholder="z.&#160;B. 1.500" />
+              <span class="einheit">€</span>
+            </div>
+          </div>
+          <div class="feld">
+            <label for="nebenkostenB">Überführung und Zulassung</label>
+            <div class="eingabe">
+              <input type="text" inputmode="decimal" id="nebenkostenB" name="nebenkostenB" placeholder="z.&#160;B. 890" />
+              <span class="einheit">€</span>
+            </div>
+          </div>
+          <div class="feld">
+            <label for="wartungB">Wartung</label>
+            <select id="wartungB" name="wartungB">
+              <option value="paket">Servicepaket je Monat</option>
+              <option value="einzeln">Inspektion einzeln</option>
+            </select>
+          </div>
+          <div class="feld" id="feld-paket-B">
+            <label for="servicepaketB">Servicepaket</label>
+            <div class="eingabe">
+              <input type="text" inputmode="decimal" id="servicepaketB" name="servicepaketB" placeholder="z.&#160;B. 29" />
+              <span class="einheit">€ im Monat</span>
+            </div>
+          </div>
+          <div class="feld" id="feld-inspektion-B" hidden>
+            <label for="inspektionB">Je Inspektion</label>
+            <div class="eingabe">
+              <input type="text" inputmode="decimal" id="inspektionB" name="inspektionB" placeholder="z.&#160;B. 380" />
+              <span class="einheit">€</span>
+            </div>
+          </div>
+          <div class="feld" id="feld-abstand-B" hidden>
+            <label for="abstandB">Inspektion fällig</label>
+            <select id="abstandB" name="abstandB">
+              <option value="12">Jährlich</option>
+              <option value="24">Alle 2 Jahre</option>
+            </select>
           </div>
         </div>
       </fieldset>
@@ -216,14 +300,14 @@
     <p>Innerhalb der Freigrenze wird nichts abgerechnet. Darüber kosten Mehrkilometer den vereinbarten Satz, Minderkilometer bringen den – meist niedrigeren – Satz zurück, oft nur bis zu einer Obergrenze. Im Beispiel mit 2.500&#160;km Freigrenze und 0,12&#160;€ je Mehrkilometer werden beim kleinen Angebot 7.700&#160;km abgerechnet: 924&#160;€ Nachzahlung. Mehr dazu in <a href="mehrkilometer.html">Mehrkilometer beim Leasing</a> und <a href="minderkilometer.html">Minderkilometer und Freigrenze</a>.</p>
 
     <h3>Der Vergleich</h3>
-    <p>Gesamtkosten sind die Monatsrate mal die Laufzeit, plus Nachzahlung oder minus Vergütung. Bei gleicher Laufzeit gewinnt das Angebot mit den geringeren Gesamtkosten. Sind die Laufzeiten verschieden, wäre das unfair – vier Jahre kosten mehr als drei –, deshalb zählt dann, was ein Monat kostet.</p>
+    <p>Gesamtkosten sind die Monatsrate mal die Laufzeit, dazu Anzahlung, Überführung und Zulassung und die Wartung, plus Nachzahlung oder minus Vergütung. Ein Servicepaket zählt jeden Monat der Laufzeit. Bezahlst du jede Inspektion einzeln, zählt sie so oft, wie ihr Abstand in die Laufzeit passt: bei 36&#160;Monaten und jährlicher Inspektion dreimal, alle zwei Jahre einmal. Bei gleicher Laufzeit gewinnt das Angebot mit den geringeren Gesamtkosten. Sind die Laufzeiten verschieden, wäre das unfair – vier Jahre kosten mehr als drei –, deshalb zählt dann, was ein Monat kostet.</p>
     <p>Ohne Monatsraten zeigt der Rechner nur die Kilometerabrechnung und nennt keinen Sieger: Dort schneidet die größere Laufleistung immer besser ab, obwohl sie über die Rate mehr kostet.</p>
 
     <h3>Welche Laufleistung passt?</h3>
     <p>Leasinggeber bieten die Laufleistung meist in Stufen von 5.000&#160;km im Jahr an. Der Rechner nennt die Stufe, die deine Fahrleistung abdeckt. Die Stufe darunter ist oft trotzdem eine Überlegung wert: Mehrkilometer sind nicht automatisch teurer als die höhere Rate – genau das rechnet der Vergleich aus. Wie du deine Fahrleistung ermittelst und wann sich welche Stufe lohnt, steht im Ratgeber <a href="laufleistung.html">Welche Laufleistung beim Leasing?</a></p>
 
     <h3>Was nicht eingerechnet ist</h3>
-    <p>Anzahlung, Überführung, Zulassung, Wartung und Versicherung. Sind sie bei beiden Angeboten gleich, ändern sie am Ergebnis nichts; unterscheiden sie sich, rechne sie selbst dazu. Gelten für die beiden Angebote verschiedene Sätze oder Freigrenzen, rechne den Vergleich zweimal – oder nimm die App, dort trägst du sie je Angebot ein.</p>
+    <p>Versicherung, Steuer und Energie. Sie sind bei zwei Angeboten für dasselbe Auto meist gleich und ändern am Ergebnis nichts; unterscheiden sie sich, rechne sie selbst dazu. Gelten für die beiden Angebote verschiedene Sätze oder Freigrenzen, rechne den Vergleich zweimal – oder nimm die App, dort trägst du sie je Angebot ein.</p>
 
     <p class="stand">Alle Angaben ohne Gewähr. Maßgeblich sind immer das Angebot und die Abrechnung deines Leasinggebers.</p>
 

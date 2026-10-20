@@ -52,12 +52,18 @@
     return ziffern === "" ? null : parseInt(ziffern, 10);
   }
 
-  /** Betrag in Zehntausendstel Euro, aus „0,12“, „0.12“ oder „1.234,5“. */
+  /**
+   * Betrag in Zehntausendstel Euro, aus „0,12“, „0.12“, „1.500“ oder
+   * „1.234,5“. Ohne Komma gilt ein Punkt vor genau drei Ziffern als
+   * Tausenderpunkt („1.500“ sind 1.500 €), außer nach einer Null („0.125“).
+   */
   function betrag(name) {
     var roh = text(name).replace(/[\s€]/g, "");
     if (roh === "") return null;
     if (roh.indexOf(",") >= 0) {
       roh = roh.replace(/\./g, "").replace(",", ".");
+    } else if (/^[1-9]\d{0,2}(\.\d{3})+$/.test(roh)) {
+      roh = roh.replace(/\./g, "");
     }
     if (!/^\d*(\.\d*)?$/.test(roh) || roh === ".") return NaN;
     var teile = roh.split(".");
