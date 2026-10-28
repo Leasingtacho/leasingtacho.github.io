@@ -23,6 +23,7 @@
 <link rel="icon" type="image/png" href="bilder/symbol.png" />
 <link rel="apple-touch-icon" href="bilder/symbol.png" />
 <link rel="stylesheet" href="stil.css" />
+<script src="waehrung.js" defer></script>
 <script src="rechner.js" defer></script>
 </head>
 <body class="textseite">
@@ -37,7 +38,7 @@
   <div class="spalte">
 
     <h1>Leasing-Kilometer-Rechner</h1>
-    <p class="vorspann">Liegst du bei deinem Kilometerleasing über oder unter dem Soll – und was heißt das am Vertragsende in Euro? Trag die Angaben aus deinem Vertrag und deinen heutigen Kilometerstand ein.</p>
+    <p class="vorspann">Liegst du bei deinem Kilometerleasing über oder unter dem Soll – und was heißt das am Vertragsende in Euro oder Franken? Trag die Angaben aus deinem Vertrag und deinen heutigen Kilometerstand ein.</p>
     <p class="stand">Der Rechner läuft nur in deinem Browser. Was du eingibst, wird weder übertragen noch gespeichert.</p>
 
     <noscript>
@@ -45,7 +46,8 @@
     </noscript>
 
     <form class="rechner" id="rechner" autocomplete="off" novalidate>
-      <p id="rechner-js" hidden><button type="button" class="knopf-leise" id="beispiel">Mit einem Beispiel ausprobieren</button></p>
+      <p id="rechner-js" hidden><button type="button" class="knopf-leise" id="beispiel">Mit einem Beispiel ausprobieren</button>
+        <label class="waehrungswahl">Währung <select id="waehrung"><option value="EUR">Euro (€)</option><option value="CHF">Schweizer Franken (CHF)</option></select></label></p>
 
       <fieldset>
         <legend>Dein Vertrag</legend>
@@ -81,14 +83,14 @@
             <label for="satzMehr">Je Mehrkilometer</label>
             <div class="eingabe">
               <input type="text" inputmode="decimal" id="satzMehr" name="satzMehr" placeholder="z.&#160;B. 0,12" />
-              <span class="einheit">€</span>
+              <span class="einheit waehrung">€</span>
             </div>
           </div>
           <div class="feld">
             <label for="satzMinder">Je Minderkilometer</label>
             <div class="eingabe">
               <input type="text" inputmode="decimal" id="satzMinder" name="satzMinder" placeholder="z.&#160;B. 0,07" />
-              <span class="einheit">€</span>
+              <span class="einheit waehrung">€</span>
             </div>
           </div>
           <div class="feld">
@@ -138,7 +140,7 @@
             <label for="deckelBetrag">Vergütet werden höchstens</label>
             <div class="eingabe">
               <input type="text" inputmode="decimal" id="deckelBetrag" name="deckelBetrag" placeholder="z.&#160;B. 500" />
-              <span class="einheit">€</span>
+              <span class="einheit waehrung">€</span>
             </div>
           </div>
         </div>
@@ -186,9 +188,9 @@
       <img class="symbol" src="bilder/symbol.png" width="256" height="256" alt="" />
       <div>
         <p class="appkasten-titel">Das jeden Monat wissen, ohne zu rechnen?</p>
-        <p>Leasingtacho für das iPhone rechnet dir diesen Stand jederzeit aus – aus allen Kilometerständen, die du abliest, mit dem Schnitt der letzten Wochen, Erinnerung an die nächste Ablesung und Ablesen per Kamera. Sieben Tage kostenlos testen, danach einmalig 4,99&#160;€.</p>
+        <p>Leasingtacho für das iPhone rechnet dir diesen Stand jederzeit aus – aus allen Kilometerständen, die du abliest, mit dem Schnitt der letzten Wochen, Erinnerung an die nächste Ablesung und Ablesen per Kamera. Sieben Tage kostenlos testen, danach einmalig <span data-chf="CHF&#160;5.00">4,99&#160;€</span>.</p>
         <p class="laden">
-          <a class="app-store" href="https://apps.apple.com/de/app/leasingtacho/id6815973549">
+          <a class="app-store" href="https://apps.apple.com/de/app/leasingtacho/id6815973549" data-chf-href="https://apps.apple.com/ch/app/leasingtacho/id6815973549">
             <picture>
               <source srcset="bilder/app-store-weiss.svg" media="(prefers-color-scheme: dark)" />
               <img src="bilder/app-store-schwarz.svg" width="162" height="54" alt="Laden im App Store" />

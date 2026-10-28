@@ -6,7 +6,7 @@
  * - Vereinbarte und erwartete Laufleistung: Kilometer je Jahr mal Laufzeit in
  *   Monaten durch zwölf, kaufmännisch auf ganze Kilometer gerundet.
  * - Abrechnung: Freigrenze je Richtung, als Freibetrag oder als Grenze;
- *   Vergütung gedeckelt in Kilometern oder Euro.
+ *   Vergütung gedeckelt in Kilometern oder als Betrag.
  * - Einmalig: Anzahlung sowie Überführung und Zulassung.
  * - Wartung: ein Servicepaket je Monat mal Laufzeit, oder jede Inspektion
  *   einzeln, so oft ihr Abstand in die Laufzeit passt (abgerundet).
@@ -16,8 +16,9 @@
  *   die Kosten je Monat.
  * - Empfohlen wird die 5.000er-Stufe, die die Fahrleistung abdeckt.
  *
- * Geld wird in Zehntausendstel Euro als ganze Zahl gerechnet und erst am Ende
- * kaufmännisch auf Cent gerundet – keine Gleitkommafehler.
+ * Geld wird in Zehntausendstel Euro bzw. Franken als ganze Zahl gerechnet und
+ * erst am Ende kaufmännisch auf Cent bzw. Rappen gerundet – keine
+ * Gleitkommafehler. Zeichen und Schreibweise kommen aus waehrung.js.
  *
  * Alles bleibt im Browser: nichts wird übertragen oder gespeichert.
  */
@@ -30,9 +31,6 @@
   var formular = document.getElementById("rechner");
   var ausgabe = document.getElementById("ergebnis");
   if (!formular || !ausgabe) return;
-
-  var km = new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 });
-  var euro = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" });
 
   // ---------- Eingaben lesen ----------
 
@@ -51,24 +49,9 @@
     return ziffern === "" ? null : parseInt(ziffern, 10);
   }
 
-  /**
-   * Betrag in Zehntausendstel Euro, aus „0,12“, „0.12“, „1.500“ oder
-   * „1.234,5“. Ohne Komma gilt ein Punkt vor genau drei Ziffern als
-   * Tausenderpunkt („1.500“ sind 1.500 €), außer nach einer Null („0.125“).
-   */
+  /** Betrag in Zehntausendsteln, siehe Waehrung.lesen. */
   function betrag(name) {
-    var roh = text(name).replace(/[\s€]/g, "");
-    if (roh === "") return null;
-    if (roh.indexOf(",") >= 0) {
-      roh = roh.replace(/\./g, "").replace(",", ".");
-    } else if (/^[1-9]\d{0,2}(\.\d{3})+$/.test(roh)) {
-      roh = roh.replace(/\./g, "");
-    }
-    if (!/^\d*(\.\d*)?$/.test(roh) || roh === ".") return NaN;
-    var teile = roh.split(".");
-    var ganz = parseInt(teile[0] || "0", 10);
-    var bruch = ((teile[1] || "") + "0000").slice(0, 4);
-    return ganz * 10000 + parseInt(bruch, 10);
+    return Waehrung.lesen(text(name));
   }
 
   // ---------- Rechnen ----------
@@ -78,7 +61,7 @@
     return Math.floor(wert + 0.5);
   }
 
-  /** Zehntausendstel Euro kaufmännisch auf Cent. */
+  /** Zehntausendstel kaufmännisch auf Cent bzw. Rappen. */
   function aufCent(zehntausendstel) {
     return Math.floor((zehntausendstel + 50) / 100);
   }
@@ -160,19 +143,19 @@
   // ---------- Ausgabe ----------
 
   function kmText(wert) {
-    return km.format(wert) + " km";
+    return Waehrung.zahl(wert) + " km";
   }
 
   function kmMitVorzeichen(wert) {
-    return (wert > 0 ? "+" : wert < 0 ? "−" : "") + km.format(Math.abs(wert)) + " km";
+    return (wert > 0 ? "+" : wert < 0 ? "−" : "") + Waehrung.zahl(Math.abs(wert)) + " km";
   }
 
-  function euroText(cent) {
-    return euro.format(cent / 100);
+  function betragText(cent) {
+    return Waehrung.betrag(cent);
   }
 
-  function euroMitVorzeichen(cent) {
-    return (cent > 0 ? "+" : cent < 0 ? "−" : "") + euro.format(Math.abs(cent) / 100);
+  function betragMitVorzeichen(cent) {
+    return (cent > 0 ? "+" : cent < 0 ? "−" : "") + Waehrung.betrag(Math.abs(cent));
   }
 
   function element(tagname, klasse, inhalt) {
@@ -226,19 +209,19 @@
     zeile(koerper, "Erwartet", kmText(a.erwartet), kmText(b.erwartet));
     zeile(koerper, "Abweichung", kmMitVorzeichen(a.differenz), kmMitVorzeichen(b.differenz), [farbe(a.differenz), farbe(b.differenz)]);
     if (a.raten !== null || b.raten !== null) {
-      zeile(koerper, "Raten", a.raten === null ? "–" : euroText(a.raten), b.raten === null ? "–" : euroText(b.raten));
+      zeile(koerper, "Raten", a.raten === null ? "–" : betragText(a.raten), b.raten === null ? "–" : betragText(b.raten));
     }
     if (a.einmalig > 0 || b.einmalig > 0) {
-      zeile(koerper, "Einmalig", euroText(a.einmalig), euroText(b.einmalig));
+      zeile(koerper, "Einmalig", betragText(a.einmalig), betragText(b.einmalig));
     }
     if (a.wartung > 0 || b.wartung > 0) {
-      zeile(koerper, "Wartung", euroText(a.wartung), euroText(b.wartung));
+      zeile(koerper, "Wartung", betragText(a.wartung), betragText(b.wartung));
     }
-    zeile(koerper, "Abrechnung", euroMitVorzeichen(a.abrechnung), euroMitVorzeichen(b.abrechnung), [farbe(a.abrechnung), farbe(b.abrechnung)]);
+    zeile(koerper, "Abrechnung", betragMitVorzeichen(a.abrechnung), betragMitVorzeichen(b.abrechnung), [farbe(a.abrechnung), farbe(b.abrechnung)]);
     if (a.raten !== null && b.raten !== null) {
-      zeile(koerper, "Gesamt", euroText(a.gesamt), euroText(b.gesamt), null, true);
+      zeile(koerper, "Gesamt", betragText(a.gesamt), betragText(b.gesamt), null, true);
       if (a.monate !== b.monate) {
-        zeile(koerper, "Je Monat", euroText(a.jeMonat), euroText(b.jeMonat), null, true);
+        zeile(koerper, "Je Monat", betragText(a.jeMonat), betragText(b.jeMonat), null, true);
       }
     }
     t.appendChild(koerper);
@@ -264,7 +247,7 @@
       });
     });
     if ([satzMehr, satzMinder, deckelBetrag].concat(seitenbetraege).some(function (w) { return typeof w === "number" && isNaN(w); })) {
-      return hinweis("Beträge bitte als Zahl eintragen, etwa „289“ oder „0,12“.", "fehlermeldung");
+      return hinweis("Beträge bitte als Zahl eintragen, etwa „289“ oder „" + Waehrung.eingabe("0,12") + "“.", "fehlermeldung");
     }
 
     var freigrenzeMehr = ganzzahl("freigrenze") || 0;
@@ -304,7 +287,7 @@
         fazit = "Beide Angebote kosten gleich viel.";
       } else {
         guenstiger = links < rechts ? "A" : "B";
-        fazit = "Angebot " + guenstiger + " ist " + (jeMonat ? "je Monat " : "insgesamt ") + euroText(Math.abs(links - rechts)) + " günstiger.";
+        fazit = "Angebot " + guenstiger + " ist " + (jeMonat ? "je Monat " : "insgesamt ") + betragText(Math.abs(links - rechts)) + " günstiger.";
         if (jeMonat) fazit += " Verglichen wird je Monat, weil die Laufzeiten verschieden sind.";
       }
     }
@@ -333,16 +316,16 @@
 
   /** Ein Beispiel zum Ausprobieren: 13.400 km im Jahr, 10.000 oder 15.000 km vereinbaren? */
   function beispiel() {
-    feld("fahrleistung").value = "13.400";
+    feld("fahrleistung").value = Waehrung.eingabe("13.400");
     feld("laufzeitA").value = "36";
-    feld("laufleistungA").value = "10.000";
+    feld("laufleistungA").value = Waehrung.eingabe("10.000");
     feld("rateA").value = "289";
     feld("laufzeitB").value = "36";
-    feld("laufleistungB").value = "15.000";
+    feld("laufleistungB").value = Waehrung.eingabe("15.000");
     feld("rateB").value = "309";
-    feld("satzMehr").value = "0,12";
-    feld("satzMinder").value = "0,07";
-    feld("freigrenze").value = "2.500";
+    feld("satzMehr").value = Waehrung.eingabe("0,12");
+    feld("satzMinder").value = Waehrung.eingabe("0,07");
+    feld("freigrenze").value = Waehrung.eingabe("2.500");
     rechnen();
     ausgabe.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
@@ -357,6 +340,7 @@
     rechnen();
   });
   document.getElementById("beispiel").addEventListener("click", beispiel);
+  Waehrung.beiWechsel(rechnen);
   document.getElementById("rechner-js").hidden = false;
   deckelZeigen();
   rechnen();

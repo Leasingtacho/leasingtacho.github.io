@@ -23,6 +23,7 @@
 <link rel="icon" type="image/png" href="bilder/symbol.png" />
 <link rel="apple-touch-icon" href="bilder/symbol.png" />
 <link rel="stylesheet" href="stil.css" />
+<script src="waehrung.js" defer></script>
 <script src="angebotsvergleich.js" defer></script>
 </head>
 <body class="textseite">
@@ -45,7 +46,8 @@
     </noscript>
 
     <form class="rechner" id="rechner" autocomplete="off" novalidate>
-      <p id="rechner-js" hidden><button type="button" class="knopf-leise" id="beispiel">Mit einem Beispiel ausprobieren</button></p>
+      <p id="rechner-js" hidden><button type="button" class="knopf-leise" id="beispiel">Mit einem Beispiel ausprobieren</button>
+        <label class="waehrungswahl">Währung <select id="waehrung"><option value="EUR">Euro (€)</option><option value="CHF">Schweizer Franken (CHF)</option></select></label></p>
 
       <fieldset>
         <legend>Deine Fahrleistung</legend>
@@ -82,21 +84,21 @@
             <label for="rateA">Monatsrate</label>
             <div class="eingabe">
               <input type="text" inputmode="decimal" id="rateA" name="rateA" placeholder="z.&#160;B. 289" />
-              <span class="einheit">€</span>
+              <span class="einheit waehrung">€</span>
             </div>
           </div>
           <div class="feld">
             <label for="anzahlungA">Anzahlung</label>
             <div class="eingabe">
               <input type="text" inputmode="decimal" id="anzahlungA" name="anzahlungA" placeholder="z.&#160;B. 1.000" />
-              <span class="einheit">€</span>
+              <span class="einheit waehrung">€</span>
             </div>
           </div>
           <div class="feld">
             <label for="nebenkostenA">Überführung und Zulassung</label>
             <div class="eingabe">
               <input type="text" inputmode="decimal" id="nebenkostenA" name="nebenkostenA" placeholder="z.&#160;B. 990" />
-              <span class="einheit">€</span>
+              <span class="einheit waehrung">€</span>
             </div>
           </div>
           <div class="feld">
@@ -110,14 +112,14 @@
             <label for="servicepaketA">Servicepaket</label>
             <div class="eingabe">
               <input type="text" inputmode="decimal" id="servicepaketA" name="servicepaketA" placeholder="z.&#160;B. 29" />
-              <span class="einheit">€ im Monat</span>
+              <span class="einheit"><span class="waehrung">€</span> im Monat</span>
             </div>
           </div>
           <div class="feld" id="feld-inspektion-A" hidden>
             <label for="inspektionA">Je Inspektion</label>
             <div class="eingabe">
               <input type="text" inputmode="decimal" id="inspektionA" name="inspektionA" placeholder="z.&#160;B. 380" />
-              <span class="einheit">€</span>
+              <span class="einheit waehrung">€</span>
             </div>
           </div>
           <div class="feld" id="feld-abstand-A" hidden>
@@ -151,21 +153,21 @@
             <label for="rateB">Monatsrate</label>
             <div class="eingabe">
               <input type="text" inputmode="decimal" id="rateB" name="rateB" placeholder="z.&#160;B. 309" />
-              <span class="einheit">€</span>
+              <span class="einheit waehrung">€</span>
             </div>
           </div>
           <div class="feld">
             <label for="anzahlungB">Anzahlung</label>
             <div class="eingabe">
               <input type="text" inputmode="decimal" id="anzahlungB" name="anzahlungB" placeholder="z.&#160;B. 1.500" />
-              <span class="einheit">€</span>
+              <span class="einheit waehrung">€</span>
             </div>
           </div>
           <div class="feld">
             <label for="nebenkostenB">Überführung und Zulassung</label>
             <div class="eingabe">
               <input type="text" inputmode="decimal" id="nebenkostenB" name="nebenkostenB" placeholder="z.&#160;B. 890" />
-              <span class="einheit">€</span>
+              <span class="einheit waehrung">€</span>
             </div>
           </div>
           <div class="feld">
@@ -179,14 +181,14 @@
             <label for="servicepaketB">Servicepaket</label>
             <div class="eingabe">
               <input type="text" inputmode="decimal" id="servicepaketB" name="servicepaketB" placeholder="z.&#160;B. 29" />
-              <span class="einheit">€ im Monat</span>
+              <span class="einheit"><span class="waehrung">€</span> im Monat</span>
             </div>
           </div>
           <div class="feld" id="feld-inspektion-B" hidden>
             <label for="inspektionB">Je Inspektion</label>
             <div class="eingabe">
               <input type="text" inputmode="decimal" id="inspektionB" name="inspektionB" placeholder="z.&#160;B. 380" />
-              <span class="einheit">€</span>
+              <span class="einheit waehrung">€</span>
             </div>
           </div>
           <div class="feld" id="feld-abstand-B" hidden>
@@ -206,14 +208,14 @@
             <label for="satzMehr">Je Mehrkilometer</label>
             <div class="eingabe">
               <input type="text" inputmode="decimal" id="satzMehr" name="satzMehr" placeholder="z.&#160;B. 0,12" />
-              <span class="einheit">€</span>
+              <span class="einheit waehrung">€</span>
             </div>
           </div>
           <div class="feld">
             <label for="satzMinder">Je Minderkilometer</label>
             <div class="eingabe">
               <input type="text" inputmode="decimal" id="satzMinder" name="satzMinder" placeholder="z.&#160;B. 0,07" />
-              <span class="einheit">€</span>
+              <span class="einheit waehrung">€</span>
             </div>
           </div>
           <div class="feld">
@@ -263,7 +265,7 @@
             <label for="deckelBetrag">Vergütet werden höchstens</label>
             <div class="eingabe">
               <input type="text" inputmode="decimal" id="deckelBetrag" name="deckelBetrag" placeholder="z.&#160;B. 500" />
-              <span class="einheit">€</span>
+              <span class="einheit waehrung">€</span>
             </div>
           </div>
         </div>
@@ -279,9 +281,9 @@
       <img class="symbol" src="bilder/symbol.png" width="256" height="256" alt="" />
       <div>
         <p class="appkasten-titel">Deine echte Fahrleistung kennen, statt zu schätzen?</p>
-        <p>Leasingtacho für das iPhone rechnet sie aus deinen Kilometerständen aus und belegt diesen Vergleich mit den Sätzen und Freigrenzen deines jetzigen Vertrags vor. Aus dem gewählten Angebot wird mit einem Tipp der neue Vertrag. Sieben Tage kostenlos testen, danach einmalig 4,99&#160;€.</p>
+        <p>Leasingtacho für das iPhone rechnet sie aus deinen Kilometerständen aus und belegt diesen Vergleich mit den Sätzen und Freigrenzen deines jetzigen Vertrags vor. Aus dem gewählten Angebot wird mit einem Tipp der neue Vertrag. Sieben Tage kostenlos testen, danach einmalig <span data-chf="CHF&#160;5.00">4,99&#160;€</span>.</p>
         <p class="laden">
-          <a class="app-store" href="https://apps.apple.com/de/app/leasingtacho/id6815973549">
+          <a class="app-store" href="https://apps.apple.com/de/app/leasingtacho/id6815973549" data-chf-href="https://apps.apple.com/ch/app/leasingtacho/id6815973549">
             <picture>
               <source srcset="bilder/app-store-weiss.svg" media="(prefers-color-scheme: dark)" />
               <img src="bilder/app-store-schwarz.svg" width="162" height="54" alt="Laden im App Store" />
