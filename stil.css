@@ -384,6 +384,12 @@ summary:focus-visible {
   }
 }
 
+/* Ein einzelnes Bildschirmfoto mitten im Artikel, etwa im Kilometer-Check */
+.bildschirme.einzeln {
+  grid-template-columns: minmax(0, 240px);
+  margin: 20px 0 28px;
+}
+
 /* ---------- Abschnitte ---------- */
 
 .abschnitt {
@@ -729,6 +735,27 @@ summary:focus-visible {
 
 .eckdaten td {
   overflow-wrap: anywhere;
+}
+
+/* Rechenbeispiel als Kasten im Artikel: Text und Tabelle auf grauer Fläche */
+.rechenkasten {
+  margin: 28px 0;
+  padding: 20px;
+  border-radius: var(--radius);
+  background: var(--kasten);
+}
+
+.artikel .rechenkasten > h2 {
+  margin-top: 0;
+}
+
+.rechenkasten > :last-child {
+  margin-bottom: 0;
+}
+
+/* Zeilenköpfe normal, damit das Ergebnis in der Fußzeile heraussticht */
+.rechenkasten .tabelle tbody th {
+  font-weight: 400;
 }
 
 /* Kasten mit dem Hinweis auf die App, am Ende von Ratgeber und Rechner */

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+<meta name="apple-itunes-app" content="app-id=6815973549" />
+<title>Calculadora de kilometraje para renting: exceso de kilómetros y reembolso – Leasingtacho</title>
+<meta name="description" content="Calculadora gratuita: ¿vas por encima o por debajo del kilometraje contratado de tu renting y cuánto supone al final del contrato? Con margen de tolerancia y proyección." />
+<link rel="canonical" href="https://leasingtacho.github.io/es/calculadora.html" />
+<link rel="alternate" hreflang="de" href="https://leasingtacho.github.io/rechner.html" />
+<link rel="alternate" hreflang="fr" href="https://leasingtacho.github.io/fr/calculateur.html" />
+<link rel="alternate" hreflang="it" href="https://leasingtacho.github.io/it/calcolatore.html" />
+<link rel="alternate" hreflang="es" href="https://leasingtacho.github.io/es/calculadora.html" />
+<link rel="alternate" hreflang="x-default" href="https://leasingtacho.github.io/rechner.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Leasingtacho" />
+<meta property="og:locale" content="es_ES" />
+<meta property="og:title" content="Calculadora de kilometraje para renting" />
+<meta property="og:description" content="¿Vas por encima o por debajo del kilometraje de tu renting? ¿Y cuánto supone al final del contrato? Calcúlalo gratis, directamente en el navegador." />
+<meta property="og:url" content="https://leasingtacho.github.io/es/calculadora.html" />
+<meta property="og:image" content="https://leasingtacho.github.io/bilder/vorschau.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/png" href="../bilder/symbol.png" />
+<link rel="apple-touch-icon" href="../bilder/symbol.png" />
+<link rel="stylesheet" href="../stil.css" />
+<script src="../waehrung.js" defer></script>
+<script src="../rechner.js" defer></script>
+</head>
+<body class="textseite">
+
+<header class="kopfzeile">
+  <div class="spalte">
+    <a class="marke" href="index.html"><img class="symbol" src="../bilder/symbol.png" width="256" height="256" alt="" />Leasingtacho</a>
+  </div>
+</header>
+
+<main class="artikel">
+  <div class="spalte">
+
+    <h1>Calculadora de kilometraje para renting</h1>
+    <p class="vorspann">¿Vas por encima o por debajo del kilometraje contratado de tu renting? ¿Y cuánto supone al final del contrato? Introduce los datos de tu contrato y el kilometraje de hoy.</p>
+    <p class="stand">La calculadora funciona solo en tu navegador. Lo que introduces no se envía ni se guarda.</p>
+
+    <noscript>
+      <p><strong>La calculadora necesita JavaScript.</strong> Si está desactivado, el apartado «Cómo funciona el cálculo», más abajo, te explica cómo hacer la cuenta tú mismo.</p>
+    </noscript>
+
+    <form class="rechner" id="rechner" autocomplete="off" novalidate>
+      <p id="rechner-js" hidden><button type="button" class="knopf-leise" id="beispiel">Probar con un ejemplo</button>
+        <label class="waehrungswahl">Moneda <select id="waehrung"><option value="EUR">Euro (€)</option><option value="CHF">Franco suizo (CHF)</option></select></label></p>
+
+      <fieldset>
+        <legend>Tu contrato</legend>
+        <div class="felder">
+          <div class="feld">
+            <label for="beginn">Inicio del contrato</label>
+            <input type="date" id="beginn" name="beginn" required />
+          </div>
+          <div class="feld">
+            <label for="laufzeit">Duración</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="laufzeit" name="laufzeit" placeholder="p.&#160;ej. 36" required />
+              <span class="einheit">meses</span>
+            </div>
+          </div>
+          <div class="feld">
+            <label for="vereinbart">Kilometraje contratado, en total</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="vereinbart" name="vereinbart" placeholder="p.&#160;ej. 45.000" required />
+              <span class="einheit">km</span>
+            </div>
+            <p class="feldhinweis">Para toda la duración, no por año.</p>
+          </div>
+          <div class="feld">
+            <label for="uebernahme">Kilometraje en la entrega</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="uebernahme" name="uebernahme" placeholder="p.&#160;ej. 10" />
+              <span class="einheit">km</span>
+            </div>
+            <p class="feldhinweis">Figura en el acta de entrega. Déjalo vacío si el coche era nuevo.</p>
+          </div>
+          <div class="feld">
+            <label for="satzMehr">Por km en exceso</label>
+            <div class="eingabe">
+              <input type="text" inputmode="decimal" id="satzMehr" name="satzMehr" placeholder="p.&#160;ej. 0,12" />
+              <span class="einheit waehrung">€</span>
+            </div>
+          </div>
+          <div class="feld">
+            <label for="satzMinder">Por km no recorrido</label>
+            <div class="eingabe">
+              <input type="text" inputmode="decimal" id="satzMinder" name="satzMinder" placeholder="p.&#160;ej. 0,07" />
+              <span class="einheit waehrung">€</span>
+            </div>
+          </div>
+          <div class="feld">
+            <label for="freigrenze">Margen de tolerancia</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="freigrenze" name="freigrenze" placeholder="p.&#160;ej. 2500" />
+              <span class="einheit">km</span>
+            </div>
+            <p class="feldhinweis">Déjalo vacío si tu contrato no tiene.</p>
+          </div>
+        </div>
+      </fieldset>
+
+      <details class="weitere">
+        <summary>Más datos del contrato</summary>
+        <div class="felder">
+          <div class="feld">
+            <label for="freigrenzeMinder">Margen de tolerancia propio para los kilómetros no recorridos</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="freigrenzeMinder" name="freigrenzeMinder" placeholder="como arriba" />
+              <span class="einheit">km</span>
+            </div>
+          </div>
+          <div class="feld">
+            <label for="freigrenzenart">Al superar la tolerancia se liquidan</label>
+            <select id="freigrenzenart" name="freigrenzenart">
+              <option value="freibetrag">Solo los km que la superan</option>
+              <option value="grenzwert">Todos los km desde el primero</option>
+            </select>
+          </div>
+          <div class="feld">
+            <label for="deckelArt">Límite de reembolso</label>
+            <select id="deckelArt" name="deckelArt">
+              <option value="ohne">Sin límite</option>
+              <option value="kilometer">Un máximo de kilómetros</option>
+              <option value="betrag">Un importe máximo</option>
+            </select>
+          </div>
+          <div class="feld" id="feld-deckel-km" hidden>
+            <label for="deckelKilometer">Km reembolsados como máximo</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="deckelKilometer" name="deckelKilometer" placeholder="p.&#160;ej. 5000" />
+              <span class="einheit">km</span>
+            </div>
+          </div>
+          <div class="feld" id="feld-deckel-betrag" hidden>
+            <label for="deckelBetrag">Reembolso máximo</label>
+            <div class="eingabe">
+              <input type="text" inputmode="decimal" id="deckelBetrag" name="deckelBetrag" placeholder="p.&#160;ej. 500" />
+              <span class="einheit waehrung">€</span>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <fieldset>
+        <legend>Tu situación</legend>
+        <div class="felder">
+          <div class="feld">
+            <label for="stand">Kilometraje</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="stand" name="stand" placeholder="p.&#160;ej. 19.500" required />
+              <span class="einheit">km</span>
+            </div>
+            <p class="feldhinweis">El total del cuentakilómetros, no el parcial.</p>
+          </div>
+          <div class="feld">
+            <label for="stichtag">Leído el</label>
+            <input type="date" id="stichtag" name="stichtag" required />
+          </div>
+          <div class="feld">
+            <label for="methode">Proyección</label>
+            <select id="methode" name="methode">
+              <option value="schnitt">Media desde el inicio del contrato</option>
+              <option value="annahme">Estimación anual propia</option>
+            </select>
+          </div>
+          <div class="feld" id="feld-jahresleistung" hidden>
+            <label for="jahresleistung">Kilómetros que esperas recorrer al año</label>
+            <div class="eingabe">
+              <input type="text" inputmode="numeric" id="jahresleistung" name="jahresleistung" placeholder="p.&#160;ej. 15.000" />
+              <span class="einheit">km</span>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <section class="ergebnis" id="ergebnis" aria-live="polite">
+        <h2>Resultado</h2>
+        <p class="rechenweg">Introduce el inicio del contrato, la duración, el kilometraje contratado y tu kilometraje de hoy: el resultado aparece al momento.</p>
+      </section>
+    </form>
+
+    <aside class="appkasten" aria-label="Leasingtacho">
+      <img class="symbol" src="../bilder/symbol.png" width="256" height="256" alt="" />
+      <div>
+        <p class="appkasten-titel">¿Quieres saberlo cada mes sin hacer cuentas?</p>
+        <p>Leasingtacho para iPhone te calcula esta situación en todo momento: a partir de todos los kilometrajes que lees, con la media de las últimas semanas, un recordatorio para la próxima lectura y la lectura con la cámara. Pruébala gratis siete días; después, <span data-chf="CHF&#160;5.00">4,99&#160;€</span> una sola vez.</p>
+        <p class="laden">
+          <a class="app-store" href="https://apps.apple.com/es/app/leasingtacho/id6815973549" data-chf-href="https://apps.apple.com/ch/app/leasingtacho/id6815973549">
+            <picture>
+              <source srcset="../bilder/app-store-weiss.svg" media="(prefers-color-scheme: dark)" />
+              <img src="../bilder/app-store-schwarz.svg" width="162" height="54" alt="Descárgalo en el App Store" />
+            </picture>
+          </a>
+        </p>
+        <p><a href="index.html">Descubre la app</a></p>
+      </div>
+    </aside>
+
+    <h2>Cómo funciona el cálculo</h2>
+    <h3>Lo previsto a día de hoy</h3>
+    <p>El kilometraje contratado se reparte por igual entre los días naturales que dura el contrato. Con 45.000&#160;km en 36&#160;meses, al cumplirse un tercio de la duración te «tocan» unos 15.000&#160;km. Si vas por encima, conduces más de lo que prevé el contrato.</p>
+    <p>El contrato termina el día anterior al mismo día del mes en que empezó: un contrato de 36&#160;meses que empieza el 1 de marzo de 2025 termina el 29 de febrero de 2028.</p>
+
+    <h3>La proyección</h3>
+    <p>A partir de tu media diaria hasta ahora, la calculadora estima dónde acabarás al final del contrato. Para eso hacen falta al menos 14&#160;días de contrato; antes, la cifra sería pura casualidad. Si quieres una cifra antes o sabes que vas a conducir más o menos, introduce tu propia estimación anual.</p>
+    <p>Con un solo kilometraje, la calculadora solo conoce tu media desde el inicio del contrato. La app guarda cada lectura y calcula también con la media de las últimas semanas, que detecta antes si cambias tu forma de conducir.</p>
+
+    <h3>Margen de tolerancia y liquidación</h3>
+    <p>Dentro del margen de tolerancia no se liquida nada. Por encima, la mayoría de los contratos solo cuentan los kilómetros que lo superan; algunos liquidan entonces todos los kilómetros desde el primero. El reembolso de los kilómetros no recorridos suele tener un límite. Ambas cosas las ajustas en «Más datos del contrato».</p>
+
+    <h3>Si a partir de hoy no recorres ni un kilómetro más</h3>
+    <p>Esta línea muestra el caso límite: un pago adicional ya no puede ser menor que este importe, y un reembolso ya no puede ser mayor.</p>
+
+    <p class="stand">Toda la información se ofrece sin garantía. Lo que cuenta es tu contrato y la liquidación de tu compañía de renting.</p>
+
+  </div>
+</main>
+
+<footer class="fusszeile">
+  <div class="spalte">
+    <nav aria-label="Páginas">
+      <ul>
+        <li><a href="index.html">Leasingtacho</a></li>
+        <li><a href="calculadora.html" aria-current="page">Calculadora de km</a></li>
+        <li><a href="balance-kilometros-fin-de-ano.html">Balance de fin de año</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Información legal">
+      <ul>
+        <li><a href="prensa.html">Prensa</a></li>
+        <li><a href="privacidad.html">Privacidad</a></li>
+        <li><a href="aviso-legal.html">Aviso legal</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Idioma">
+      <ul>
+        <li><a href="../rechner.html" hreflang="de" lang="de">Deutsch</a></li>
+        <li><a href="../fr/calculateur.html" hreflang="fr" lang="fr">Français</a></li>
+        <li><a href="../it/calcolatore.html" hreflang="it" lang="it">Italiano</a></li>
+      </ul>
+    </nav>
+    <p>Apple, el logotipo de Apple, iPhone, iCloud, Face&#160;ID, Touch&#160;ID, Siri y App Store son marcas comerciales de Apple Inc., registradas en EE.&#160;UU. y en otros países y regiones.</p>
+  </div>
+</footer>
+
+</body>
+</html>

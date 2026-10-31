@@ -5,6 +5,11 @@
  * die Schreibweise. Mit Franken schreiben die Rechner schweizerisch
  * („CHF 1'234.50“, „45'000 km“, Punkt vor den Rappen).
  *
+ * Die Schreibweise folgt außerdem der Sprache der Seite (<html lang>), wie in
+ * der App (Locale.leasingtacho): Deutsch de-DE, mit Franken de-CH; Französisch
+ * fr-FR, mit Franken fr-CH; Italienisch it-IT, mit Franken it-CH; Spanisch
+ * immer es-ES.
+ *
  * Voreingestellt: „?waehrung=chf“ oder „?waehrung=eur“ in der Adresse, sonst
  * Franken, wenn der Browser auf die Schweiz oder Liechtenstein eingestellt ist,
  * sonst Euro. Gespeichert wird nichts; gewechselt wird mit der Auswahl
@@ -21,14 +26,42 @@
 var Waehrung = (function () {
   "use strict";
 
-  var ARTEN = {
-    EUR: { zeichen: "€", sprache: "de-DE" },
-    CHF: { zeichen: "CHF", sprache: "de-CH" }
-  };
-  var RECHNER = /^(rechner|angebotsvergleich)\.html/;
+  var ZEICHEN = { EUR: "€", CHF: "CHF" };
 
+  /*
+   * Je Sprache der Seite und Währung: das Format für Intl (`sprache`) und die
+   * Schreibweise der Eingaben (`gruppe`, `dezimal`) für Platzhalter, Beispiel
+   * und Wechsel der Währung. `vierstellig: false` schreibt vierstellige Zahlen
+   * ohne Tausenderzeichen („2500“), wie Intl auf Italienisch und Spanisch.
+   */
+  var SCHREIBWEISEN = {
+    de: {
+      EUR: { sprache: "de-DE", gruppe: ".", dezimal: "," },
+      CHF: { sprache: "de-CH", gruppe: "'", dezimal: "." }
+    },
+    fr: {
+      EUR: { sprache: "fr-FR", gruppe: " ", dezimal: "," },
+      CHF: { sprache: "fr-CH", gruppe: " ", dezimal: "." }
+    },
+    it: {
+      EUR: { sprache: "it-IT", gruppe: ".", dezimal: ",", vierstellig: false },
+      CHF: { sprache: "it-CH", gruppe: "'", dezimal: ".", vierstellig: false }
+    },
+    es: {
+      EUR: { sprache: "es-ES", gruppe: ".", dezimal: ",", vierstellig: false },
+      CHF: { sprache: "es-ES", gruppe: ".", dezimal: ",", vierstellig: false }
+    }
+  };
+  var RECHNER = /(^|\/)(rechner|angebotsvergleich|calculateur|calcolatore|calculadora)\.html/;
+
+  var seitensprache = (document.documentElement.lang || "de").slice(0, 2).toLowerCase();
+  if (!SCHREIBWEISEN[seitensprache]) seitensprache = "de";
   var code = voreinstellung();
   var beobachter = [];
+
+  function schreibweise() {
+    return SCHREIBWEISEN[seitensprache][code];
+  }
 
   function voreinstellung() {
     var adresse = /[?&]waehrung=(eur|chf)(&|$)/i.exec(window.location.search);
@@ -38,7 +71,7 @@ var Waehrung = (function () {
   }
 
   function format(optionen) {
-    return new Intl.NumberFormat(ARTEN[code].sprache, optionen);
+    return new Intl.NumberFormat(schreibweise().sprache, optionen);
   }
 
   /** Cent oder Rappen als Betrag: „1.234,50 €“ oder „CHF 1'234.50“. */
@@ -62,14 +95,15 @@ var Waehrung = (function () {
    * keine Zahl. Ein Komma ist immer das Dezimalzeichen („0,12“, „1.234,5“).
    * Ohne Komma gilt mit Franken der Punkt als Dezimalzeichen („0.12“, „1'500“);
    * mit Euro gilt ein Punkt vor genau drei Ziffern als Tausenderpunkt („1.500“
-   * sind 1.500 €), außer nach einer Null („0.125“).
+   * sind 1.500 €), außer nach einer Null („0.125“). Spanisch schreibt auch
+   * Franken mit Dezimalkomma und liest deshalb wie mit Euro.
    */
   function lesen(text) {
     var roh = text.replace(/[\s€'’]|CHF|Fr\./gi, "");
     if (roh === "") return null;
     if (roh.indexOf(",") >= 0) {
       roh = roh.replace(/\./g, "").replace(",", ".");
-    } else if (code === "EUR" && /^[1-9]\d{0,2}(\.\d{3})+$/.test(roh)) {
+    } else if (schreibweise().dezimal === "," && /^[1-9]\d{0,2}(\.\d{3})+$/.test(roh)) {
       roh = roh.replace(/\./g, "");
     }
     if (!/^\d*(\.\d*)?$/.test(roh) || roh === ".") return NaN;
@@ -79,16 +113,24 @@ var Waehrung = (function () {
     return ganz * 10000 + parseInt(bruch, 10);
   }
 
-  /** Eine Eingabe in deutscher Schreibweise („45.000“, „0,12“) für die gewählte Währung. */
+  /**
+   * Eine Eingabe in deutscher Schreibweise („45.000“, „0,12“) für die gewählte
+   * Währung und die Sprache der Seite. Platzhalter in anderer Schreibweise
+   * („45 000“) bleiben dabei, wie sie sind; nur Komma und Tausenderpunkt
+   * zwischen Ziffern werden umgeschrieben.
+   */
   function eingabe(deutsch) {
-    if (code === "EUR") return deutsch;
-    return deutsch.replace(/(\d)\.(?=\d{3})/g, "$1'").replace(/(\d),(\d)/g, "$1.$2");
+    var s = schreibweise();
+    var text = deutsch;
+    if (s.vierstellig === false) text = text.replace(/(^|[^\d.])(\d)\.(\d{3})(?![\d.])/g, "$1$2$3");
+    if (s.gruppe === "." && s.dezimal === ",") return text;
+    return text.replace(/(\d)\.(?=\d{3})/g, "$1" + s.gruppe).replace(/(\d),(\d)/g, "$1" + s.dezimal + "$2");
   }
 
   function seiteAnpassen() {
     var chf = code === "CHF";
     document.querySelectorAll(".waehrung").forEach(function (e) {
-      e.textContent = ARTEN[code].zeichen;
+      e.textContent = ZEICHEN[code];
     });
     document.querySelectorAll("[data-chf]").forEach(function (e) {
       if (e.dataset.eur === undefined) e.dataset.eur = e.textContent;
@@ -112,11 +154,11 @@ var Waehrung = (function () {
   function alsEingabe(zehntausendstel) {
     var ganz = Math.floor(zehntausendstel / 10000);
     var bruch = String(zehntausendstel % 10000 + 10000).slice(1).replace(/0+$/, "");
-    return bruch ? ganz + (code === "CHF" ? "." : ",") + bruch : String(ganz);
+    return bruch ? ganz + schreibweise().dezimal + bruch : String(ganz);
   }
 
   function wechseln(neu) {
-    if (!ARTEN[neu] || neu === code) return;
+    if (!ZEICHEN[neu] || neu === code) return;
     // Eingetragene Beträge mit der alten Schreibweise lesen, damit aus „1.500 €“
     // nicht „1.50 Franken“ wird, und in der neuen wieder hinschreiben.
     var felder = document.querySelectorAll('input[inputmode="decimal"]');
@@ -138,6 +180,8 @@ var Waehrung = (function () {
 
   return {
     get code() { return code; },
+    /** Das Format für Intl, etwa „fr-CH“: nach Sprache der Seite und Währung. */
+    get sprache() { return schreibweise().sprache; },
     betrag: betrag,
     satz: satz,
     zahl: zahl,
